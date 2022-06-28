@@ -1,0 +1,32 @@
+model: tf_efficientnet_b0_ns
+batch_size: 32
+image_size: 512
+seed: 42
+pretrained: true
+num_workers: 10
+pin_memory: true
+train_dir: /home/mithil/PycharmProjects/Rice/data/images/
+train_file_path: /home/mithil/PycharmProjects/Rice/data/train.csv
+epochs: 10
+in_channels: 3
+folds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+scheduler_name: CosineAnnealingWarmRestarts
+optimizer: Adam
+T_0: 5
+T_max: 5
+T_mult: 1
+min_lr: 1e-7
+max_lr: 1e-3
+weight_decay: 1e-6
+target_size: 3
+device: cuda
+model_dir: /home/mithil/PycharmProjects/Rice/models/tf_efficientnet_b0_nsbaseline
+n_fold: 5
+optimizer_args:
+  lr: 1.0E-4
+

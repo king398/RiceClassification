@@ -1,0 +1,21 @@
+import timm
+import torch.nn as nn
+
+
+class BaseModel(nn.Module):
+    def __init__(self, cfg):
+        super().__init__()
+        self.cfg = cfg
+        self.model = timm.create_model(self.cfg['model'], pretrained=self.cfg['pretrained'],
+                                       in_chans=self.cfg['in_channels'],
+                                       num_classes=cfg['target_size'])
+
+    def set_batchnorm_eval(m):
+        classname = m.__class__.__name__
+        if classname.find('BatchNorm') != -1:
+            m.eval()
+
+    def forward(self, x):
+        output = self.model(x)
+
+        return output

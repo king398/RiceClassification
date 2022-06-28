@@ -1,5 +1,5 @@
 import torch
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader
 import numpy as np
 import cv2
 
@@ -18,11 +18,9 @@ class Cultivar_data(Dataset):
     def __getitem__(self, idx):
 
         image_path_single = self.image_path[idx]
-        if self.cfg['in_channels'] == 1:
-            image = cv2.imread(image_path_single, cv2.IMREAD_GRAYSCALE)
-        else:
-            image = cv2.imread(image_path_single)
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+        image = cv2.imread(image_path_single)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = np.array(image)
 
         if self.transform is not None:
