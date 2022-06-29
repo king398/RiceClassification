@@ -1,0 +1,11 @@
+model: tf_efficientnet_b0_ns
+batch_size: 8
+image_size: 512
+seed: 42
+pretrained: true
+num_workers: 10
+pin_memory: true
+test_dir: /home/mithil/PycharmProjects/Rice/data/images/
+test_file: /home/mithil/PycharmProjects/Rice/data/test.csv
+model_path: /home/mithil/PycharmProjects/Rice/models/tf_efficientnet_b0_nsbaseline
+probablity_file

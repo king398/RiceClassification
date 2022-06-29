@@ -29,13 +29,14 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
     outputs = None
     targets = None
 
-    for i, (images, target) in enumerate(stream, start=1):
+    for i, (images, images_rgn, target) in enumerate(stream, start=1):
 
         images = images.to(device, non_blocking=True)
         target = target.to(device).long()
+        images_rgn = images_rgn.to(device, non_blocking=True)
 
         with autocast():
-            output = model(images)
+            output = model(images, images_rgn)
             output = output.float()
 
         loss = criterion(output, target)
@@ -60,7 +61,6 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
             outputs = torch.cat([outputs, output], dim=0)
             targets = torch.cat([targets, target], dim=0)
     log_loss = metric_log_loss(outputs, targets)
-    print(f"Epoch: {epoch:02}. Train. Log Loss {log_loss}")
 
 
 def validate_fn(val_loader, model, criterion, epoch, cfg):
@@ -68,22 +68,58 @@ def validate_fn(val_loader, model, criterion, epoch, cfg):
     metric_monitor = MetricMonitor()
     model.eval()
     stream = tqdm(val_loader)
-    loss_list = []
+    outputs = None
+    targets = None
     with torch.no_grad():
-        for i, (images, target) in enumerate(stream, start=1):
-            images = images.to(device, non_blocking=True)
+        for i, (images, images_rgn, target) in enumerate(stream, start=1):
 
-            target = target.to(device, non_blocking=True).long()
+            images = images.to(device, non_blocking=True)
+            target = target.to(device).long()
+            images_rgn = images_rgn.to(device, non_blocking=True)
+
             with autocast():
-                output = model(images).float()
+                output = model(images, images_rgn)
+                output = output.float()
+
             loss = criterion(output, target)
 
-            log_loss = metric_log_loss(output, target)
             accuracy = accuracy_score(output, target)
 
             metric_monitor.update("Loss", loss.item())
             metric_monitor.update("Accuracy", accuracy)
-            metric_monitor.update("Log loss", log_loss)
             stream.set_description(f"Epoch: {epoch:02}. Valid. {metric_monitor}")
-            loss_list.append(log_loss)
-    return np.mean(loss_list)
+            if outputs is None and targets is None:
+                outputs = output
+                targets = target
+            else:
+                outputs = torch.cat([outputs, output], dim=0)
+                targets = torch.cat([targets, target], dim=0)
+    log_loss = metric_log_loss(outputs, targets)
+    print(F"Epoch: {epoch:02}. Valid. Log Loss{log_loss}")
+    return log_loss
+
+
+def inference_fn(test_loader, model, cfg):
+    device = torch.device(cfg['device'])
+    model.eval()
+    stream = tqdm(test_loader)
+    preds = None
+    with torch.no_grad():
+        for i, (images, images_rgn) in enumerate(stream, start=1):
+            images = images.to(device, non_blocking=True)
+
+            images_rgn = images_rgn.to(device, non_blocking=True)
+
+            with autocast():
+                output = model(images, images_rgn)
+                output = output.float()
+
+            pred = torch.softmax(output, 1).detach().cpu()
+            if preds is None:
+                preds = pred
+            else:
+                preds = torch.cat((preds, pred))
+            del pred
+            gc.collect()
+
+    return preds

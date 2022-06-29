@@ -48,11 +48,13 @@ def main(cfg):
             train_dataset = Cultivar_data(image_path=train_path,
                                           cfg=cfg,
                                           targets=train_labels,
-                                          transform=get_train_transforms(cfg['image_size']))
+                                          transform=get_train_transforms(cfg['image_size']),
+                                          transform_rgn=get_train_transforms_rgn(cfg['image_size']))
             valid_dataset = Cultivar_data(image_path=valid_path,
                                           cfg=cfg,
                                           targets=valid_labels,
-                                          transform=get_valid_transforms(cfg['image_size']))
+                                          transform=get_valid_transforms(cfg['image_size']),
+                                          transform_rgn=get_valid_transforms_rgn(cfg['image_size']))
             train_loader = DataLoader(
                 train_dataset, batch_size=cfg['batch_size'], shuffle=True,
                 num_workers=cfg['num_workers'], pin_memory=cfg['pin_memory']
