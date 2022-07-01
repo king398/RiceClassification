@@ -28,6 +28,10 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
     stream = tqdm(train_loader)
     outputs = None
     targets = None
+    if epoch < 5:
+        cfg['mixup'] = True
+    else:
+        cfg['mixup'] = False
 
     for i, (images, images_rgn, target) in enumerate(stream, start=1):
 
@@ -47,7 +51,6 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
             loss = mixup_criterion(criterion, output, target_a, target_b, lam)
         else:
             loss = criterion(output, target)
-
 
         accuracy = accuracy_score(output, target)
         # log_loss = metric_log_loss(output, target)
@@ -103,7 +106,7 @@ def validate_fn(val_loader, model, criterion, epoch, cfg):
                 outputs = torch.cat([outputs, output], dim=0)
                 targets = torch.cat([targets, target], dim=0)
     log_loss = metric_log_loss(outputs, targets)
-    print(F"Epoch: {epoch:02}. Valid. Log Loss{log_loss}")
+    print(F"Epoch: {epoch:02}. Valid. Log Loss {str(round(log_loss, 6))}")
     return log_loss
 
 
