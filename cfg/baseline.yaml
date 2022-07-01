@@ -1,5 +1,5 @@
-model: tf_efficientnet_b0_ns
-batch_size: 8
+model: convnext_tiny_384_in22ft1k
+batch_size: 4
 image_size: 512
 seed: 42
 pretrained: true
@@ -25,8 +25,10 @@ max_lr: 1e-3
 weight_decay: 1e-6
 target_size: 3
 device: cuda
-model_dir: /home/mithil/PycharmProjects/Rice/models/tf_efficientnet_b0_nsbaseline
+model_dir: /home/mithil/PycharmProjects/Rice/models/convnext_tiny_384_in22ft1k_mixup_rgbonly
 n_fold: 5
+mixup: True
+mixup_alpha : 1.0
 optimizer_args:
-  lr: 1.0E-4
+  lr: 4.0E-5
 

@@ -34,12 +34,20 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
         images = images.to(device, non_blocking=True)
         target = target.to(device).long()
         images_rgn = images_rgn.to(device, non_blocking=True)
+        if cfg['mixup']:
+            images_rgn, target_a, target_b, lam = mixup_data(images_rgn, target, cfg['mixup_alpha'])
+            images_rgn = images_rgn.to(device, non_blocking=True, dtype=torch.float)
+            target_a = target_a.to(device)
+            target_b = target_b.to(device)
 
         with autocast():
             output = model(images, images_rgn)
             output = output.float()
+        if cfg['mixup']:
+            loss = mixup_criterion(criterion, output, target_a, target_b, lam)
+        else:
+            loss = criterion(output, target)
 
-        loss = criterion(output, target)
 
         accuracy = accuracy_score(output, target)
         # log_loss = metric_log_loss(output, target)

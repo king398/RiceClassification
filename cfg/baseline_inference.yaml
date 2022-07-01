@@ -1,11 +1,15 @@
-model: tf_efficientnet_b0_ns
-batch_size: 8
+model: convnext_tiny_384_in22ft1k
+batch_size: 16
 image_size: 512
 seed: 42
 pretrained: true
-num_workers: 10
+num_workers: 4
 pin_memory: true
 test_dir: /home/mithil/PycharmProjects/Rice/data/images/
 test_file: /home/mithil/PycharmProjects/Rice/data/test.csv
-model_path: /home/mithil/PycharmProjects/Rice/models/tf_efficientnet_b0_nsbaseline
-probablity_file
+model_path: /home/mithil/PycharmProjects/Rice/models/convnext_tiny_384_in22ft1k_mixup
+probablity_file : /home/mithil/PycharmProjects/Rice/submission/convnext_tiny_384_in22ft1k_onlyrgb.npy
+submission_file : /home/mithil/PycharmProjects/Rice/submission/convnext_tiny_384_in22ft1k_onlyrgb.csv
+in_channels : 3
+target_size: 3
+device: cuda

@@ -19,7 +19,7 @@ class BaseModel(nn.Module):
 
     def forward(self, x, x_rgn):
         output = self.model(x)
-        output_1 = self.model(x_rgn)
-        output = self.fc(torch.cat([output_1, output], 1))
+        # output_1 = self.model(x_rgn)
+        output = self.fc(output)
 
         return output

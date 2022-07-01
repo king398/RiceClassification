@@ -36,6 +36,7 @@ def main(cfg):
         model = BaseModel(cfg)
         model.load_state_dict(torch.load(path))
 
+
         model.to(device)
         model.eval()
         probablity = inference_fn(test_loader, model, cfg)
@@ -56,8 +57,7 @@ def main(cfg):
         brown.append(i[1])
         healthy.append(i[2])
     sub = pd.DataFrame({"filename": test_df['Image_id'], "blast": blast, "brown": brown, "healthy": healthy})
-    probablitys = probabilitys.numpy()
-    np.save(cfg['probablity_file'], probablitys, allow_pickle=True)
+    np.save(cfg['probablity_file'], probabilitys, allow_pickle=True)
     sub.to_csv(cfg['submission_file'], index=False)
 
 
