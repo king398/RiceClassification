@@ -15,6 +15,7 @@ def seed_everything(seed):
     torch.cuda.manual_seed(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = True
+    torch.use_deterministic_algorithms(True)
 
 
 def return_device():
@@ -98,6 +99,3 @@ def get_scheduler(optimizer, scheduler_params, train_loader=None):
 def return_filpath(name, folder):
     path = os.path.join(folder, f'{name}')
     return path
-
-
-
