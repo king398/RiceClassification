@@ -23,16 +23,15 @@ def main(cfg):
     skf = StratifiedKFold(n_splits=cfg['n_fold'], random_state=cfg['seed'], shuffle=True)
     label_encoder = preprocessing.LabelEncoder()
     train_df['Label'] = label_encoder.fit_transform(train_df['Label'])
-    for fold, (trn_index, val_index) in enumerate(skf.split(train_df, train_df['Label'])):
+    for fold in range(5):
 
         if fold in cfg['folds']:
             best_model_name = None
             best_loss = np.inf
 
-            train = train_df.iloc[trn_index]
+            train = train_df[train_df['fold'] != fold].reset_index(drop=True)
 
-            valid = train_df.iloc[val_index]
-            train, valid = train.reset_index(drop=True), valid.reset_index(drop=True)
+            valid = train_df[train_df['fold'] == fold].reset_index(drop=True)
 
             train_path = train['file_path']
             train_labels = train['Label']
