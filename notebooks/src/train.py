@@ -5,7 +5,6 @@ import pandas as pd
 # Deep learning Stuff
 import yaml
 from sklearn import preprocessing
-from sklearn.model_selection import StratifiedKFold
 from torch.optim import *
 # Function Created by me
 from dataset import *
@@ -20,7 +19,6 @@ def main(cfg):
     seed_everything(cfg['seed'])
     gc.enable()
     device = return_device()
-    skf = StratifiedKFold(n_splits=cfg['n_fold'], random_state=cfg['seed'], shuffle=True)
     label_encoder = preprocessing.LabelEncoder()
     train_df['Label'] = label_encoder.fit_transform(train_df['Label'])
     for fold in range(5):

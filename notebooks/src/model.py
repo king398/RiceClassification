@@ -9,8 +9,7 @@ class BaseModel(nn.Module):
         self.cfg = cfg
         self.model = timm.create_model(self.cfg['model'], pretrained=self.cfg['pretrained'],
                                        in_chans=self.cfg['in_channels'],
-                                       num_classes=0)
-        self.fc = nn.LazyLinear(3)
+                                       num_classes=cfg['target_size'])
 
     def set_batchnorm_eval(m):
         classname = m.__class__.__name__
@@ -20,6 +19,5 @@ class BaseModel(nn.Module):
     def forward(self, x, x_rgn):
         output = self.model(x)
         # output_1 = self.model(x_rgn)
-        output = self.fc(output)
 
         return output
