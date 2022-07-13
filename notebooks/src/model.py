@@ -4,6 +4,7 @@ import torch
 
 
 class BaseModel(nn.Module):
+
     def __init__(self, cfg):
         super().__init__()
         self.cfg = cfg
@@ -11,7 +12,7 @@ class BaseModel(nn.Module):
                                        in_chans=self.cfg['in_channels'],
                                        num_classes=cfg['target_size'])
 
-    def set_batchnorm_eval(m):
+    def set_batchnorm_eval(self, m):
         classname = m.__class__.__name__
         if classname.find('BatchNorm') != -1:
             m.eval()
