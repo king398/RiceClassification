@@ -1,9 +1,9 @@
 model: convnext_small_384_in22ft1k
-batch_size: 4
+batch_size: 8
 image_size: 512
 seed: 42
 pretrained: true
-num_workers: 15
+num_workers: 2
 pin_memory: true
 train_dir: /content/images/
 train_file_path: /content/train.csv
