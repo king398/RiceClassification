@@ -20,7 +20,7 @@ optimizer: Adam
 T_0: 5
 T_max: 5
 T_mult: 1
-min_lr: 1e-8
+min_lr: 1e-7
 max_lr: 1e-3
 weight_decay: 1e-6
 target_size: 3

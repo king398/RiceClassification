@@ -6,17 +6,20 @@ import numpy as np
 
 def get_train_transforms(DIM):
     return A.Compose(
-        [
-            A.RandomResizedCrop(height=DIM, width=DIM),
-            A.HorizontalFlip(),
-            A.VerticalFlip(),
-            A.Normalize(
-                mean=[0.485, 0.456, 0.406],
-                std=[0.229, 0.224, 0.225],
-            ),
+        [A.CLAHE(),
+         A.RandomResizedCrop(height=DIM, width=DIM),
+         A.HorizontalFlip(),
+         A.VerticalFlip(),
 
-            ToTensorV2(),
-        ]
+         A.CLAHE(),
+
+         A.Normalize(
+             mean=[0.485, 0.456, 0.406],
+             std=[0.229, 0.224, 0.225],
+         ),
+
+         ToTensorV2(),
+         ]
     )
 
 
@@ -26,6 +29,7 @@ def get_train_transforms_rgn(DIM):
             A.RandomResizedCrop(height=DIM, width=DIM),
             A.HorizontalFlip(),
             A.VerticalFlip(),
+            A.CLAHE(),
 
             A.Normalize(
                 mean=[0.16479976, 0.24128053, 0.55933255],
@@ -41,6 +45,7 @@ def get_valid_transforms(DIM):
     return A.Compose(
         [
             A.Resize(height=DIM, width=DIM),
+            A.CLAHE(),
 
             A.Normalize(
                 mean=[0.485, 0.456, 0.406],
