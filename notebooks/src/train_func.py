@@ -39,7 +39,7 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
         target = target.to(device).long()
         images_rgn = images_rgn.to(device, non_blocking=True)
         if cfg['mixup']:
-            images_rgn, target_a, target_b, lam = mixup_data(images_rgn, target, cfg['mixup_alpha'])
+            images_rgn, target_a, target_b, lam = cutmix(images_rgn, target, cfg['mixup_alpha'])
             images_rgn = images_rgn.to(device, non_blocking=True, dtype=torch.float)
             target_a = target_a.to(device)
             target_b = target_b.to(device)
