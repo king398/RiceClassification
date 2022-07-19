@@ -78,7 +78,7 @@ def validate_fn(val_loader, model, criterion, epoch, cfg):
     outputs = None
     targets = None
     with torch.no_grad():
-        for i, (image, target) in enumerate(stream, start=1):
+        for i, (images, target) in enumerate(stream, start=1):
 
             images = images.to(device, non_blocking=True)
             target = target.to(device).long()
