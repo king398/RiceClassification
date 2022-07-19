@@ -3,7 +3,7 @@ import numpy as np
 import statistics
 
 paths = glob.glob(
-    '/home/mithil/PycharmProjects/Rice/models/fix_csv_models/convnext_small_512_cutmix/*.pth')
+    '/home/mithil/PycharmProjects/Rice/models/fix_csv_models/convnext_base_cutmix_512_image_size/*.pth')
 cv = []
 for i in paths:
     i = i.split(".pth")[0]

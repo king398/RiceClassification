@@ -33,19 +33,17 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
     else:
         cfg['mixup'] = False
 
-    for i, (images, images_rgn, target) in enumerate(stream, start=1):
+    for i, (images, target) in enumerate(stream, start=1):
 
         images = images.to(device, non_blocking=True)
         target = target.to(device).long()
-        images_rgn = images_rgn.to(device, non_blocking=True)
         if cfg['mixup']:
-            images_rgn, target_a, target_b, lam = cutmix(images_rgn, target, cfg['mixup_alpha'])
-            images_rgn = images_rgn.to(device, non_blocking=True, dtype=torch.float)
+            images, target_a, target_b, lam = cutmix(images, target, cfg['mixup_alpha'])
             target_a = target_a.to(device)
             target_b = target_b.to(device)
 
         with autocast():
-            output = model(images, images_rgn)
+            output = model(images)
             output = output.float()
         if cfg['mixup']:
             loss = mixup_criterion(criterion, output, target_a, target_b, lam)
@@ -53,11 +51,9 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
             loss = criterion(output, target)
 
         accuracy = accuracy_score(output, target)
-        # log_loss = metric_log_loss(output, target)
 
         metric_monitor.update("Loss", loss.item())
         metric_monitor.update("Accuracy", accuracy)
-        # metric_monitor.update("Log loss", log_loss)
         loss.backward()
         optimizer.step()
         if scheduler is not None:
@@ -82,14 +78,13 @@ def validate_fn(val_loader, model, criterion, epoch, cfg):
     outputs = None
     targets = None
     with torch.no_grad():
-        for i, (images, images_rgn, target) in enumerate(stream, start=1):
+        for i, (image, target) in enumerate(stream, start=1):
 
             images = images.to(device, non_blocking=True)
             target = target.to(device).long()
-            images_rgn = images_rgn.to(device, non_blocking=True)
 
             with autocast():
-                output = model(images, images_rgn)
+                output = model(images)
                 output = output.float()
 
             loss = criterion(output, target)
@@ -116,16 +111,14 @@ def inference_fn(test_loader, model, cfg):
     stream = tqdm(test_loader)
     preds = None
     with torch.no_grad():
-        for i, (images, images_rgn) in enumerate(stream, start=1):
+        for i, (images) in enumerate(stream, start=1):
             images = images.to(device, non_blocking=True)
 
-            images_rgn = images_rgn.to(device, non_blocking=True)
-
             with autocast():
-                output = model(images, images_rgn)
+                output = model(images)
                 output = output.float()
 
-            pred = torch.softmax(output, 1).detach().cpu()
+            pred = torch.log_softmax(output, 1).detach().cpu()
             if preds is None:
                 preds = pred
             else:
@@ -134,3 +127,34 @@ def inference_fn(test_loader, model, cfg):
             gc.collect()
 
     return preds
+
+
+def oof_fn(test_loader, model, cfg):
+    device = torch.device(cfg['device'])
+    model.eval()
+    stream = tqdm(test_loader)
+    ids = []
+    target = []
+    preds = None
+    probablitys = None
+    accuracy_list = []
+    with torch.no_grad():
+        for i, (images, label, id) in enumerate(stream, start=1):
+            ids.extend(id)
+            target.extend(label)
+            images = images.to(device, non_blocking=True)
+            label = label.to(device, non_blocking=True).long()
+            with autocast():
+                output = model(images).float()
+            probablity = torch.softmax(output, 1).detach().cpu()
+            if probablitys is None:
+                probablitys = probablity
+            else:
+                torch.cat((probablitys, probablity))
+            pred = torch.argmax(output, 1).detach().cpu()
+            if preds is None:
+                preds = pred
+            else:
+                preds = torch.cat((preds, pred))
+            accuracy_list.append(accuracy_score(output, label))
+    return ids, target, preds.detach().cpu().numpy(), probablitys.detach().cpu().numpy(), np.mean(accuracy_list)

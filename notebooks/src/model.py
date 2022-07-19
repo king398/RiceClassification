@@ -17,8 +17,7 @@ class BaseModel(nn.Module):
         if classname.find('BatchNorm') != -1:
             m.eval()
 
-    def forward(self, x, x_rgn):
+    def forward(self, x):
         output = self.model(x)
-        # output_1 = self.model(x_rgn)
 
         return output
