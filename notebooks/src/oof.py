@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 ############# Deep learning Stuff #################
+import torch.nn
 import ttach as tta
 import yaml
 from sklearn import preprocessing
@@ -53,6 +54,8 @@ def main(cfg):
             ids, target, preds, probablity, accuracy = oof_fn(val_loader, model, cfg)
             print(f"Fold: {fold} Accuracy: {accuracy}")
             oof_preds = np.concatenate([oof_preds, preds]) if oof_preds is not None else preds
+            print(len(preds))
+            print(len(probablity))
             oof_probablity = np.concatenate([oof_probablity, probablity]) if oof_probablity is not None else probablity
             oof_ids.extend(ids)
             oof_targets.extend(target)
@@ -63,3 +66,30 @@ def main(cfg):
             del ids, target, preds, probablity, accuracy
             torch.cuda.empty_cache()
             gc.collect()
+    oof_pred_real = label_encoder.inverse_transform(oof_preds)
+    oof_targets_real = label_encoder.inverse_transform(oof_targets)
+    blast = []
+    brown = []
+    healthy = []
+    print(oof_probablity.shape)
+    for i in oof_probablity:
+        blast.append(i[0])
+        brown.append(i[1])
+        healthy.append(i[2])
+
+    oof_df = pd.DataFrame.from_dict(
+        {'image_id': oof_ids, 'label': oof_targets_real, 'prediction': oof_pred_real, 'cultivar_int': oof_preds,
+         'target_int': oof_targets, 'blast': blast, 'brown': brown, 'healthy': healthy})
+    oof_df.to_csv(cfg['oof_file_path'], index=False)
+    np.save(cfg['oof_probablity_path'], oof_probablity)
+    loss = torch.nn.NLLLoss()
+    print(f"Loss {abs(loss(torch.tensor(oof_probablity), torch.tensor(oof_targets)).item())}")
+
+
+if __name__ == '__main__' and '__file__' in globals():
+    parser = argparse.ArgumentParser(description='Baseline')
+    parser.add_argument("--file", type=Path)
+    args = parser.parse_args()
+    with open(str(args.file), "r") as stream:
+        cfg = yaml.safe_load(stream)
+    main(cfg)

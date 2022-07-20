@@ -28,10 +28,7 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
     stream = tqdm(train_loader)
     outputs = None
     targets = None
-    if epoch < 5:
-        cfg['mixup'] = True
-    else:
-        cfg['mixup'] = False
+    cfg['mixup'] = False
 
     for i, (images, target) in enumerate(stream, start=1):
 
@@ -118,7 +115,7 @@ def inference_fn(test_loader, model, cfg):
                 output = model(images)
                 output = output.float()
 
-            pred = torch.log_softmax(output, 1).detach().cpu()
+            pred = torch.softmax(output, 1).detach().cpu()
             if preds is None:
                 preds = pred
             else:
@@ -150,11 +147,12 @@ def oof_fn(test_loader, model, cfg):
             if probablitys is None:
                 probablitys = probablity
             else:
-                torch.cat((probablitys, probablity))
+                probablitys = torch.cat((probablitys, probablity))
             pred = torch.argmax(output, 1).detach().cpu()
             if preds is None:
                 preds = pred
             else:
                 preds = torch.cat((preds, pred))
             accuracy_list.append(accuracy_score(output, label))
+
     return ids, target, preds.detach().cpu().numpy(), probablitys.detach().cpu().numpy(), np.mean(accuracy_list)
