@@ -68,6 +68,9 @@ def main(cfg):
             gc.collect()
     oof_pred_real = label_encoder.inverse_transform(oof_preds)
     oof_targets_real = label_encoder.inverse_transform(oof_targets)
+    loss = torch.nn.NLLLoss()
+    print(f"Loss {(loss(torch.tensor(oof_probablity), torch.tensor(oof_targets)).item())}")
+    oof_probablity = np.array(torch.exp(torch.tensor(oof_probablity)))
     blast = []
     brown = []
     healthy = []
@@ -81,8 +84,7 @@ def main(cfg):
          'target_int': oof_targets, 'blast': blast, 'brown': brown, 'healthy': healthy})
     oof_df.to_csv(cfg['oof_file_path'], index=False)
     np.save(cfg['oof_probablity_path'], oof_probablity)
-    loss = torch.nn.NLLLoss()
-    print(f"Loss {abs(loss(torch.tensor(oof_probablity), torch.tensor(oof_targets)).item())}")
+
 
 
 if __name__ == '__main__' and '__file__' in globals():

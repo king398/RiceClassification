@@ -143,7 +143,7 @@ def oof_fn(test_loader, model, cfg):
             label = label.to(device, non_blocking=True).long()
             with autocast():
                 output = model(images).float()
-            probablity = torch.softmax(output, 1).detach().cpu()
+            probablity = torch.log_softmax(output, 1).detach().cpu()
             if probablitys is None:
                 probablitys = probablity
             else:

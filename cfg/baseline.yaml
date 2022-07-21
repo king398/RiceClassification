@@ -1,4 +1,4 @@
-model: convnext_small_384_in22ft1k
+model: convnext_base_384_in22ft1k
 batch_size: 8
 image_size: 512
 seed: 42
