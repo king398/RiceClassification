@@ -1,1 +1,2 @@
 convnext_small_512_cutmix_final :0.9501251578330994
+convnext_small_512_no_aug : 0.9491145014762878

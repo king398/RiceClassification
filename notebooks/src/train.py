@@ -38,7 +38,7 @@ def main(cfg):
             model = BaseModel(cfg)
 
             model.to(device)
-            criterion = nn.CrossEntropyLoss()
+            criterion = nn.CrossEntropyLoss(label_smoothing=0.15)
             optimizer_args = cfg['optimizer_args']
 
             optimizer = eval(cfg['optimizer'])(model.parameters(), **optimizer_args)
