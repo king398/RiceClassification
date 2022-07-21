@@ -71,7 +71,6 @@ def main(cfg):
     blast = []
     brown = []
     healthy = []
-    print(oof_probablity.shape)
     for i in oof_probablity:
         blast.append(i[0])
         brown.append(i[1])
