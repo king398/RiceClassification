@@ -23,6 +23,7 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
     gc.collect()
     torch.cuda.empty_cache()
     device = torch.device(cfg['device'])
+    final_loss = torch.nn.NLLLoss()
     metric_monitor = MetricMonitor()
     model.train()
     stream = tqdm(train_loader)
@@ -64,12 +65,14 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
         else:
             outputs = torch.cat([outputs, output], dim=0)
             targets = torch.cat([targets, target], dim=0)
-    log_loss = metric_log_loss(outputs, targets)
+    log_loss = final_loss(torch.log_softmax(outputs, 1), targets).item()
 
 
 def validate_fn(val_loader, model, criterion, epoch, cfg):
     device = torch.device(cfg['device'])
     metric_monitor = MetricMonitor()
+    final_loss = torch.nn.NLLLoss()
+
     model.eval()
     stream = tqdm(val_loader)
     outputs = None
@@ -97,7 +100,7 @@ def validate_fn(val_loader, model, criterion, epoch, cfg):
             else:
                 outputs = torch.cat([outputs, output], dim=0)
                 targets = torch.cat([targets, target], dim=0)
-    log_loss = metric_log_loss(outputs, targets)
+    log_loss = final_loss(torch.log_softmax(outputs, 1), targets).item()
     print(F"Epoch: {epoch:02}. Valid. Log Loss {str(round(log_loss, 6))}")
     return log_loss
 
