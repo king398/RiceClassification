@@ -14,7 +14,6 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
         train_loader ([DataLoader]): A pytorch dataloader that containes train images and returns images,target
         model ([Module]): A pytorch model
         criterion ([type]): Pytorch loss
-        criterion_2 ([type]): Pytorch loss
         optimizer ([type]): [description]
         epoch ([type]): [description]
         cfg ([type]): [description]
@@ -29,7 +28,10 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
     stream = tqdm(train_loader)
     outputs = None
     targets = None
-    cfg['mixup'] = False
+    if epoch > 5:
+        cfg['mixup'] = True
+    else:
+        cfg['mixup'] = False
 
     for i, (images, target) in enumerate(stream, start=1):
 
