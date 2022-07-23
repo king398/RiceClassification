@@ -1,0 +1,6 @@
+{
+  "Models": {
+    "convnext_small_512_no_aug": 0.10166239738464355,
+    "convnext_small_384_no_aug": 0.09721939265727997
+  }
+}

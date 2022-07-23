@@ -1,14 +1,13 @@
+# Utils
 import argparse
 import glob
 from pathlib import Path
-
 import pandas as pd
-############# Deep learning Stuff #################
+# Deep learning Stuff
 import torch.nn
-import ttach as tta
 import yaml
 from sklearn import preprocessing
-####### Function Created by me ###############
+# Function Created by me
 from dataset import *
 from model import *
 from train_func import *
@@ -28,17 +27,9 @@ def main(cfg):
     oof_ids = []
     oof_targets = []
     for fold in range(5):
-
         if fold in cfg['folds']:
-            best_model_name = None
-            best_loss = np.inf
-
-            train = train_df[train_df['fold'] != fold].reset_index(drop=True)
-
             valid = train_df[train_df['fold'] == fold].reset_index(drop=True)
 
-            train_path = train['file_path']
-            train_labels = train['Label']
             valid_path = valid['file_path']
             valid_labels = valid['Label']
             valid_dataset = Cultivar_data_oof(valid_path, cfg, valid_labels, ids=valid['Image_id'].values,
@@ -84,7 +75,6 @@ def main(cfg):
          'target_int': oof_targets, 'blast': blast, 'brown': brown, 'healthy': healthy})
     oof_df.to_csv(cfg['oof_file_path'], index=False)
     np.save(cfg['oof_probablity_path'], oof_probablity)
-
 
 
 if __name__ == '__main__' and '__file__' in globals():
