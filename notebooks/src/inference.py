@@ -1,12 +1,12 @@
+# Utils
 import argparse
 import glob
 from pathlib import Path
-
+import yaml
 import pandas as pd
 # Deep learning Stuff
+from torch.utils.data import DataLoader
 import ttach as tta
-import yaml
-from sklearn import preprocessing
 
 # Function Created by me
 from dataset import *
@@ -66,5 +66,5 @@ if __name__ == '__main__' and '__file__' in globals():
     parser.add_argument("--file", type=Path)
     args = parser.parse_args()
     with open(str(args.file), "r") as stream:
-        cfg = yaml.safe_load(stream)
-    main(cfg)
+        config = yaml.safe_load(stream)
+    main(config)

@@ -1,6 +1,6 @@
-model: swinv2_base_window12to24_192to384_22kft1k
+model: convnext_small_384_in22ft1k
 batch_size: 8
-image_size: 384
+image_size: 512
 seed: 42
 pretrained: true
 num_workers: 2

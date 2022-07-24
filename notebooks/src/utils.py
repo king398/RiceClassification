@@ -77,7 +77,7 @@ def get_scheduler(optimizer, scheduler_params, train_loader=None):
             last_epoch=-1
         )
 
-    elif scheduler_params['sfile_preview_typescheduler_name'] == 'OneCycleLR':
+    elif scheduler_params['scheduler_name'] == 'OneCycleLR':
         schedulers = torch.optim.lr_scheduler.OneCycleLR(optimizer,
                                                          epochs=scheduler_params['epochs'],
                                                          steps_per_epoch=len(train_loader),

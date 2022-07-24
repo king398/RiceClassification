@@ -11,7 +11,7 @@ from loss import *
 def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=None):
     """Train a model on the given image using the given parameters .
     Args:
-        train_loader ([DataLoader]): A pytorch dataloader that containes train images and returns images,target
+        train_loader ([DataLoader]): A pytorch dataloader that contains train images and returns images,target
         model ([Module]): A pytorch model
         criterion ([type]): Pytorch loss
         optimizer ([type]): [description]
@@ -29,7 +29,6 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
     outputs = None
     targets = None
     cfg['mixup'] = False
-
 
     for i, (images, target) in enumerate(stream, start=1):
 

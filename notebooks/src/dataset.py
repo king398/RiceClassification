@@ -1,7 +1,7 @@
-import torch
-from torch.utils.data import Dataset, DataLoader
-import numpy as np
 import cv2
+import numpy as np
+import torch
+from torch.utils.data import Dataset
 
 
 class Cultivar_data(Dataset):

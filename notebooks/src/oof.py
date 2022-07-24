@@ -7,8 +7,9 @@ from sklearn import preprocessing
 import yaml
 
 # Deep learning Stuff
-import torch.nn
+from torch import nn
 import ttach as tta
+from torch.utils.data import DataLoader
 
 # Function Created by me
 from dataset import *
@@ -61,7 +62,7 @@ def main(cfg):
             gc.collect()
     oof_pred_real = label_encoder.inverse_transform(oof_preds)
     oof_targets_real = label_encoder.inverse_transform(oof_targets)
-    loss = torch.nn.NLLLoss()
+    loss = nn.NLLLoss()
     print(f"Loss {(loss(torch.tensor(oof_probablity), torch.tensor(oof_targets)).item())}")
     oof_probablity = np.array(torch.exp(torch.tensor(oof_probablity)))
     blast = []
