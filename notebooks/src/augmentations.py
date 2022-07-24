@@ -4,14 +4,14 @@ import torch
 import numpy as np
 import cv2
 
+
 def get_train_transforms(DIM):
     return A.Compose(
         [
             A.RandomResizedCrop(height=DIM, width=DIM),
             A.HorizontalFlip(),
             A.VerticalFlip(),
-            A.ShiftScaleRotate(shift_limit=0.2, scale_limit=0.2, rotate_limit=20, p=0.5),
-            A.OneOf([A.RandomBrightness(limit=0.1, p=1), A.RandomContrast(limit=0.1, p=1)]),
+
 
             A.Normalize(
                 mean=[0.485, 0.456, 0.406],
