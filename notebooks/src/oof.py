@@ -3,10 +3,13 @@ import argparse
 import glob
 from pathlib import Path
 import pandas as pd
+from sklearn import preprocessing
+import yaml
+
 # Deep learning Stuff
 import torch.nn
-import yaml
-from sklearn import preprocessing
+import ttach as tta
+
 # Function Created by me
 from dataset import *
 from model import *
@@ -41,12 +44,11 @@ def main(cfg):
             model = BaseModel(cfg)
             path = glob.glob(f"{cfg['model_dir']}/{cfg['model']}_fold{fold}*.pth")
             model.load_state_dict(torch.load(path[0]))
+            model = tta.ClassificationTTAWrapper(model, tta.aliases.flip_transform())
             model = model.to(device)
             ids, target, preds, probablity, accuracy = oof_fn(val_loader, model, cfg)
             print(f"Fold: {fold} Accuracy: {accuracy}")
             oof_preds = np.concatenate([oof_preds, preds]) if oof_preds is not None else preds
-            print(len(preds))
-            print(len(probablity))
             oof_probablity = np.concatenate([oof_probablity, probablity]) if oof_probablity is not None else probablity
             oof_ids.extend(ids)
             oof_targets.extend(target)

@@ -35,7 +35,7 @@ def main(cfg):
     for path in glob.glob(f"{cfg['model_path']}/*.pth"):
         model = BaseModel(cfg)
         model.load_state_dict(torch.load(path))
-
+        model = tta.ClassificationTTAWrapper(model, tta.aliases.flip_transform())
 
         model.to(device)
         model.eval()

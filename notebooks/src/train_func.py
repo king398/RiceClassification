@@ -28,10 +28,8 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
     stream = tqdm(train_loader)
     outputs = None
     targets = None
-    if epoch > 5:
-        cfg['mixup'] = True
-    else:
-        cfg['mixup'] = False
+    cfg['mixup'] = False
+
 
     for i, (images, target) in enumerate(stream, start=1):
 

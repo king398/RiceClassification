@@ -13,10 +13,10 @@ in_channels: 3
 
 target_size: 3
 device: cuda
-model_dir: /home/mithil/PycharmProjects/Rice/models/fix_csv_models/convnext_small_512_no_aug
+model_dir: /home/mithil/PycharmProjects/Rice/models/log_loss/convnext_small_512_image_size_no_aug
 n_fold: 5
-oof_file_path: /home/mithil/PycharmProjects/Rice/oof/convnext_small_512_no_aug_oof.csv
-oof_probablity_path: /home/mithil/PycharmProjects/Rice/oof/convnext_small_512_no_aug_oof.npy
+oof_file_path: /home/mithil/PycharmProjects/Rice/oof/convnext_small_512_image_size_no_aug_oof_tta.csv
+oof_probablity_path: /home/mithil/PycharmProjects/Rice/oof/convnext_small_512_image_size_no_aug_oof_tta.npy
 folds:
   - 0
   - 1
