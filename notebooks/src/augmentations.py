@@ -2,22 +2,24 @@ import albumentations as A
 from albumentations.pytorch.transforms import ToTensorV2
 import torch
 import numpy as np
-
+import cv2
 
 def get_train_transforms(DIM):
     return A.Compose(
-        [A.CLAHE(),
-         A.RandomResizedCrop(height=DIM, width=DIM),
-         A.HorizontalFlip(),
-         A.VerticalFlip(),
+        [
+            A.RandomResizedCrop(height=DIM, width=DIM),
+            A.HorizontalFlip(),
+            A.VerticalFlip(),
+            A.ShiftScaleRotate(shift_limit=0.2, scale_limit=0.2, rotate_limit=20, p=0.5),
+            A.OneOf([A.RandomBrightness(limit=0.1, p=1), A.RandomContrast(limit=0.1, p=1)]),
 
-         A.Normalize(
-             mean=[0.485, 0.456, 0.406],
-             std=[0.229, 0.224, 0.225],
-         ),
+            A.Normalize(
+                mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225],
+            ),
 
-         ToTensorV2(),
-         ]
+            ToTensorV2(),
+        ]
     )
 
 
@@ -40,16 +42,16 @@ def get_train_transforms_rgn(DIM):
 
 def get_valid_transforms(DIM):
     return A.Compose(
-        [A.CLAHE(),
-         A.Resize(height=DIM, width=DIM),
+        [
+            A.Resize(height=DIM, width=DIM),
 
-         A.Normalize(
-             mean=[0.485, 0.456, 0.406],
-             std=[0.229, 0.224, 0.225],
-         ),
+            A.Normalize(
+                mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225],
+            ),
 
-         ToTensorV2(),
-         ]
+            ToTensorV2(),
+        ]
     )
 
 
