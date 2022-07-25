@@ -12,9 +12,7 @@ def get_train_transforms(DIM):
             A.HorizontalFlip(),
             A.VerticalFlip(),
 
-            A.ShiftScaleRotate(shift_limit=0.1, scale_limit=0.1, rotate_limit=45, p=0.5),
-            A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5),
-            A.CoarseDropout(),
+
 
             A.Normalize(
                 mean=[0.485, 0.456, 0.406],
