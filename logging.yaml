@@ -43,9 +43,9 @@ convnext_small_384_no_aug:
 convnext_small_512_image_size_no_aug:
   score:
     cv: 0.093706876039505
-    tta_cv :  0.0929960235953331
+    tta_cv: 0.0929960235953331
     lb: 0.1309931938567894
-    tta_lb : 0.1264960264194152
+    tta_lb: 0.1264960264194152
 
 
   notes: "Baseline Model With 512 image size"
@@ -80,9 +80,44 @@ convnext_small_512_image_size_no_aug:
     "A.RandomResizedCrop(height=DIM, width=DIM),
            A.HorizontalFlip(),
            A.VerticalFlip()"
-    tta : tta.aliases.flip_transform()
+    tta: tta.aliases.flip_transform()
   files:
     model_dir: "/home/mithil/PycharmProjects/Rice/models/log_loss/convnext_small_512_image_size_no_aug"
 
     inference_file: /home/mithil/PycharmProjects/Rice/logging.yaml
     oof_file: /home/mithil/PycharmProjects/Rice/oof/convnext_small_512_image_size_no_aug_oof.csv
+convnext_small_384_in22ft1k_512_cutmix:
+  score:
+    cv_tta: 0.11421280354261398
+    lb_tta: 0.157684108768552
+  cfg:
+    model: convnext_small_384_in22ft1k
+    batch_size: 8
+    image_size: 512
+    seed: 42
+    pretrained: true
+    epochs: 15
+    in_channels: 3
+    folds:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+    scheduler_name: CosineAnnealingWarmRestarts
+    optimizer: Adam
+    T_0: 5
+    T_max: 5
+    T_mult: 1
+    min_lr: 1e-7
+    max_lr: 1e-3
+    weight_decay: 1e-6
+    target_size: 3
+    n_fold: 5
+    optimizer_args:
+      lr: 1.0E-5
+    Augs:
+    "A.RandomResizedCrop(height=DIM, width=DIM),
+             A.HorizontalFlip(),
+             A.VerticalFlip()"
+    tta: tta.aliases.flip_transform()

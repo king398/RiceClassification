@@ -7,9 +7,9 @@ num_workers: 4
 pin_memory: true
 test_dir: /home/mithil/PycharmProjects/Rice/data/images/
 test_file: /home/mithil/PycharmProjects/Rice/data/test.csv
-model_path: /home/mithil/PycharmProjects/Rice/models/log_loss/convnext_small_512_image_size_no_aug
-probablity_file: /home/mithil/PycharmProjects/Rice/submission/convnext_small_512_image_size_no_aug_tta.npy
-submission_file: /home/mithil/PycharmProjects/Rice/submission/convnext_small_512_image_size_no_aug_tta.csv
+model_path: /home/mithil/PycharmProjects/Rice/models/log_loss/convnext_small_384_in22ft1k_512_cutmix
+probablity_file: /home/mithil/PycharmProjects/Rice/submission/convnext_small_384_in22ft1k_512_cutmix_tta.npy
+submission_file: /home/mithil/PycharmProjects/Rice/submission/convnext_small_384_in22ft1k_512_cutmix_tta.csv
 in_channels: 3
 target_size: 3
 device: cuda
