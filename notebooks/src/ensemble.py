@@ -7,9 +7,9 @@ id = \
         'filename'].values
 probablity_1 = np.load('/home/mithil/PycharmProjects/Rice/submission/convnext_small_512_image_size_no_aug_tta.npy',
                        allow_pickle=True)
-probablity_2 = np.load('/home/mithil/PycharmProjects/Rice/submission/convnext_small_384_in22ft1k_512_cutmix_tta.npy',
+probablity_2 = np.load('/home/mithil/PycharmProjects/Rice/submission/swinv2_base_window12to24_192to384_22kft1k_tta.npy',
                        allow_pickle=True)
-probablity = probablity_1 * 0.65 + probablity_2 * 0.35
+probablity = probablity_1 * 0.75 + probablity_2 * 0.25
 blast = []
 brown = []
 healthy = []
@@ -19,4 +19,6 @@ for i in probabilitys:
     brown.append(i[1])
     healthy.append(i[2])
 sub = pd.DataFrame({"filename": id, "blast": blast, "brown": brown, "healthy": healthy})
-sub.to_csv('/home/mithil/PycharmProjects/Rice/submission/ensemble/cutmix_512_convnext_ensemble.csv', index=False)
+sub.to_csv(
+    '/home/mithil/PycharmProjects/Rice/submission/ensemble/convnext_small_512_swinv2_base_window12to24_192to384.csv',
+    index=False)

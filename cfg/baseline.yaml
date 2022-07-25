@@ -1,4 +1,4 @@
-model: convnext_base_384_in22ft1k
+model: swinv2_base_window12to24_192to384_22kft1k
 batch_size: 8
 image_size: 512
 seed: 42

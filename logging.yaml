@@ -121,3 +121,6 @@ convnext_small_384_in22ft1k_512_cutmix:
              A.HorizontalFlip(),
              A.VerticalFlip()"
     tta: tta.aliases.flip_transform()
+swinv2_base_window12to24_192to384_22kft1k:
+  score:
+    cv_tta : 0.08863433450460434
