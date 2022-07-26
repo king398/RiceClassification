@@ -98,3 +98,8 @@ def get_scheduler(optimizer, scheduler_params, train_loader=None):
 def return_filpath(name, folder):
     path = os.path.join(folder, f'{name}')
     return path
+
+
+def return_label(blast, brown, healthy):
+    probablity = np.array([blast, brown, healthy])
+    return np.argmax(probablity)

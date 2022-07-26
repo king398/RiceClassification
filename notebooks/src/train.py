@@ -17,11 +17,16 @@ def main(cfg):
     train_df = pd.read_csv(cfg['train_file_path'])
 
     train_df['file_path'] = train_df['Image_id'].apply(lambda x: return_filpath(x, folder=cfg['train_dir']))
+    test_df = pd.read_csv(cfg['pseudo_file_path'])
+    test_df['file_path'] = test_df['filename'].apply(lambda x: return_filpath(x, folder=cfg['train_dir']))
+    test_df['Label'] = list(
+        map(return_label, test_df['blast'].values, test_df['brown'].values, test_df['healthy'].values))
     seed_everything(cfg['seed'])
     gc.enable()
     device = return_device()
     label_encoder = preprocessing.LabelEncoder()
     train_df['Label'] = label_encoder.fit_transform(train_df['Label'])
+
     for fold in range(5):
 
         if fold in cfg['folds']:
@@ -31,6 +36,7 @@ def main(cfg):
             train = train_df[train_df['fold'] != fold].reset_index(drop=True)
 
             valid = train_df[train_df['fold'] == fold].reset_index(drop=True)
+            train = pd.concat([train, test_df]).reset_index(drop=True)
 
             train_path = train['file_path']
             train_labels = train['Label']

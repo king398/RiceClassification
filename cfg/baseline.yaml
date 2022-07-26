@@ -28,7 +28,8 @@ device: cuda
 model_dir: tf_efficientnetv2_m
 n_fold: 5
 mixup: True
-mixup_alpha : 1.0
+mixup_alpha: 1.0
+pseudo_file_path: /content/RiceClassification/oof/swinv2_base_window12to24_192to384_22kft1k_tta.csv
 optimizer_args:
   lr: 1.0E-5
 

@@ -12,12 +12,7 @@ def get_train_transforms(DIM):
             A.HorizontalFlip(),
             A.VerticalFlip(),
 
-
-
-            A.Normalize(
-                mean=[0.485, 0.456, 0.406],
-                std=[0.229, 0.224, 0.225],
-            ),
+            A.Normalize(),
 
             ToTensorV2(),
         ]
@@ -46,10 +41,7 @@ def get_valid_transforms(DIM):
         [
             A.Resize(height=DIM, width=DIM),
 
-            A.Normalize(
-                mean=[0.485, 0.456, 0.406],
-                std=[0.229, 0.224, 0.225],
-            ),
+            A.Normalize(),
 
             ToTensorV2(),
         ]
