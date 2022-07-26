@@ -1,6 +1,6 @@
 model: swinv2_base_window12to24_192to384_22kft1k
 batch_size: 8
-image_size: 512
+image_size: 384
 seed: 42
 pretrained: true
 num_workers: 2
@@ -15,6 +15,7 @@ folds:
   - 2
   - 3
   - 4
+
 scheduler_name: CosineAnnealingWarmRestarts
 optimizer: Adam
 T_0: 5
@@ -29,7 +30,7 @@ model_dir: tf_efficientnetv2_m
 n_fold: 5
 mixup: True
 mixup_alpha: 1.0
-pseudo_file_path: /content/RiceClassification/oof/swinv2_base_window12to24_192to384_22kft1k_tta.csv
+pseudo_file_path: /content/RiceClassification/submission/swinv2_base_window12to24_192to384_22kft1k_tta.csv
 optimizer_args:
   lr: 1.0E-5
 
