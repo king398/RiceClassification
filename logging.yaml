@@ -124,3 +124,35 @@ convnext_small_384_in22ft1k_512_cutmix:
 swinv2_base_window12to24_192to384_22kft1k:
   score:
     cv_tta : 0.08863433450460434
+    lb_tta : 0.1029713086908735
+  cfg:
+    model: convnext_small_384_in22ft1k
+    batch_size: 8
+    image_size: 384
+    seed: 42
+    pretrained: true
+    epochs: 15
+    in_channels: 3
+    folds:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+    scheduler_name: CosineAnnealingWarmRestarts
+    optimizer: Adam
+    T_0: 5
+    T_max: 5
+    T_mult: 1
+    min_lr: 1e-7
+    max_lr: 1e-3
+    weight_decay: 1e-6
+    target_size: 3
+    n_fold: 5
+    optimizer_args:
+      lr: 1.0E-5
+    Augs:
+    "A.RandomResizedCrop(height=DIM, width=DIM),
+               A.HorizontalFlip(),
+               A.VerticalFlip()"
+    tta: tta.aliases.flip_transform()

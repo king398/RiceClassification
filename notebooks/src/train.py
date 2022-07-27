@@ -26,6 +26,7 @@ def main(cfg):
     device = return_device()
     label_encoder = preprocessing.LabelEncoder()
     train_df['Label'] = label_encoder.fit_transform(train_df['Label'])
+    train_df = pd.concat([train_df, test_df]).reset_index(drop=True)
 
     for fold in range(5):
 
@@ -36,7 +37,7 @@ def main(cfg):
             train = train_df[train_df['fold'] != fold].reset_index(drop=True)
 
             valid = train_df[train_df['fold'] == fold].reset_index(drop=True)
-            train = pd.concat([train, test_df]).reset_index(drop=True)
+
 
             train_path = train['file_path']
             train_labels = train['Label']
