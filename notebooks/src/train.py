@@ -38,7 +38,6 @@ def main(cfg):
 
             valid = train_df[train_df['fold'] == fold].reset_index(drop=True)
 
-
             train_path = train['file_path']
             train_labels = train['Label']
             valid_path = valid['file_path']

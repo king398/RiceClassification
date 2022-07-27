@@ -1,6 +1,6 @@
-model: convnext_small_384_in22ft1k
+model: swinv2_base_window12to24_192to384_22kft1k
 batch_size: 8
-image_size: 512
+image_size: 384
 seed: 42
 pretrained: true
 num_workers: 2
@@ -15,6 +15,7 @@ folds:
   - 2
   - 3
   - 4
+
 scheduler_name: CosineAnnealingWarmRestarts
 optimizer: Adam
 T_0: 5
@@ -25,10 +26,10 @@ max_lr: 1e-3
 weight_decay: 1e-6
 target_size: 3
 device: cuda
-model_dir: convnext_small_384_in22ft1k_512
+model_dir: swin_v2_pseudo
 n_fold: 5
 mixup: True
 mixup_alpha: 1.0
+pseudo_file_path: ./RiceClassification/submission/swinv2_base_window12to24_192to384_22kft1k_tta.csv
 optimizer_args:
   lr: 1.0E-5
-

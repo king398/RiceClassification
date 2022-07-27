@@ -13,12 +13,15 @@ probablity_1 = np.load('/home/mithil/PycharmProjects/Rice/oof/convnext_small_512
                        allow_pickle=True)
 probablity_2 = np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_tta.npy',
                        allow_pickle=True)
-best_loss = 0
+best_loss = np.inf
 best_weight = 0
-for i in range(10):
-    i = i / 10
-    #probablity = torch.tensor(probablity_1 * i + probablity_2 * (1 - i))
-    probablity = torch.tensor(probablity_2)
+for i in range(20):
+    i = i / 20
+    probablity = torch.tensor(probablity_1 * i + probablity_2 * (1 - i))
     loss = nn.NLLLoss()
-    loss_item = loss(probablity, labels).item()
-    print(abs(loss_item))
+    loss_item = abs(loss(probablity, labels).item())
+    if loss_item < best_loss:
+        best_weight = i
+        best_loss = loss_item
+print(best_loss)
+print(best_weight)
