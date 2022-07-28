@@ -1,7 +1,6 @@
 import timm
 import torch.nn as nn
 import torch
-from notebooks.model import gc_vit
 
 
 def set_batchnorm_eval(m):
