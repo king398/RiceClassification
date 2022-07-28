@@ -1,6 +1,8 @@
 import argparse
 from pathlib import Path
 from sklearn.utils.class_weight import compute_class_weight
+from sklearn.model_selection import StratifiedKFold
+
 import pandas as pd
 # Deep learning Stuff
 import yaml
@@ -15,6 +17,7 @@ from train_func import *
 
 def main(cfg):
     train_df = pd.read_csv(cfg['train_file_path'])
+    skf = StratifiedKFold(n_splits=5, random_state=42, shuffle=True)
 
     train_df['file_path'] = train_df['Image_id'].apply(lambda x: return_filpath(x, folder=cfg['train_dir']))
     test_df = pd.read_csv(cfg['pseudo_file_path'])
@@ -26,7 +29,14 @@ def main(cfg):
     device = return_device()
     label_encoder = preprocessing.LabelEncoder()
     train_df['Label'] = label_encoder.fit_transform(train_df['Label'])
-    train_df = pd.concat([train_df, test_df]).reset_index(drop=True)
+    test_df = pd.concat([train_df, test_df]).reset_index(drop=True)
+    test = pd.DataFrame()
+    for fold, (trn_index, val_index) in enumerate(skf.split(test_df, test_df['Label'])):
+        valid = test_df.iloc[val_index]
+        valid = valid.reset_index(drop=True)
+        valid['fold'] = fold
+        test = pd.concat([test, valid]).reset_index(drop=True)
+    train_df = test
 
     for fold in range(5):
 
