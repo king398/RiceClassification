@@ -29,14 +29,7 @@ def main(cfg):
     device = return_device()
     label_encoder = preprocessing.LabelEncoder()
     train_df['Label'] = label_encoder.fit_transform(train_df['Label'])
-    test_df = pd.concat([train_df, test_df]).reset_index(drop=True)
-    test = pd.DataFrame()
-    for fold, (trn_index, val_index) in enumerate(skf.split(test_df, test_df['Label'])):
-        valid = test_df.iloc[val_index]
-        valid = valid.reset_index(drop=True)
-        valid['fold'] = fold
-        test = pd.concat([test, valid]).reset_index(drop=True)
-    train_df = test
+
 
     for fold in range(5):
 
