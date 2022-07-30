@@ -1,4 +1,4 @@
-model: swinv2_base_window12to24_192to384_22kft1k
+model: swin_large_patch4_window12_384
 batch_size: 16
 image_size: 384
 seed: 42
@@ -7,9 +7,9 @@ num_workers: 4
 pin_memory: true
 test_dir: /home/mithil/PycharmProjects/Rice/data/images/
 test_file: /home/mithil/PycharmProjects/Rice/data/test.csv
-model_path: /home/mithil/PycharmProjects/Rice/models/log_loss/swin_v2_pseudo
-probablity_file: /home/mithil/PycharmProjects/Rice/submission/swin_v2_pseudo_tta.npy
-submission_file: /home/mithil/PycharmProjects/Rice/submission/swin_v2_pseudo_tta.csv
+model_path: /home/mithil/PycharmProjects/Rice/models/log_loss/swin_large_patch4_window12_384
+probablity_file: /home/mithil/PycharmProjects/Rice/submission/swin_large_patch4_window12_384_tta.npy
+submission_file: /home/mithil/PycharmProjects/Rice/submission/swin_large_patch4_window12_384_tta.csv
 in_channels: 3
 target_size: 3
 device: cuda

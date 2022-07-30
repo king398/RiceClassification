@@ -1,4 +1,4 @@
-model: swin_base_patch4_window12_384
+model: swinv2_large_window12to24_192to384_22kft1k
 batch_size: 8
 image_size: 384
 seed: 42
