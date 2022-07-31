@@ -31,6 +31,7 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
     cfg['mixup'] = False
 
     for i, (images, target) in enumerate(stream, start=1):
+        optimizer.zero_grad()
 
         images = images.to(device, non_blocking=True)
         target = target.to(device).long()
@@ -56,7 +57,7 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
         if scheduler is not None:
             scheduler.step()
 
-        optimizer.zero_grad()
+
         stream.set_description(f"Epoch: {epoch:02}. Train. {metric_monitor}")
         if outputs is None and targets is None:
             outputs = output
