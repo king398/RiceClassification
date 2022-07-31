@@ -47,7 +47,7 @@ def main(cfg):
             model = BaseModel(cfg)
 
             model.to(device)
-            criterion = nn.CrossEntropyLoss(weight=torch.tensor([1.1618799, 0.5957162, 2.17073171]))
+            criterion = nn.CrossEntropyLoss(weight=torch.tensor([1.1618799, 0.5957162, 2.17073171]).cuda())
             optimizer_args = cfg['optimizer_args']
 
             optimizer = eval(cfg['optimizer'])(model.parameters(), **optimizer_args)
