@@ -1,5 +1,5 @@
-model: swinv2_large_window12to24_192to384_22kft1k
-batch_size: 8
+model: convnext_large_384_in22ft1k
+batch_size: 4
 image_size: 384
 seed: 42
 pretrained: true
@@ -26,7 +26,7 @@ max_lr: 1e-3
 weight_decay: 1e-6
 target_size: 3
 device: cuda
-model_dir: tf_efficientnetv2_m
+model_dir: convnext_large_384_in22ft1k
 n_fold: 5
 mixup: True
 mixup_alpha: 1.0

@@ -156,3 +156,9 @@ swinv2_base_window12to24_192to384_22kft1k:
                A.HorizontalFlip(),
                A.VerticalFlip()"
     tta: tta.aliases.flip_transform()
+swin_large_patch4_window12_384:
+  score:
+    cv_tta :  0.08526156097650528
+    lb_tta :
+
+
