@@ -23,5 +23,3 @@ class BaseModel(nn.Module):
         output = self.model(x)
 
         return output
-
-
