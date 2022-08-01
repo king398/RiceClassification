@@ -41,12 +41,12 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
             target_b = target_b.to(device)
 
         with autocast():
-            output = model(images)
+            output, feature = model(images)
             output = output.float()
         if cfg['mixup']:
             loss = mixup_criterion(criterion, output, target_a, target_b, lam)
         else:
-            loss = criterion(output, target)
+            loss = criterion(feature, target)
 
         accuracy = accuracy_score(output, target)
 
@@ -56,7 +56,6 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
         optimizer.step()
         if scheduler is not None:
             scheduler.step()
-
 
         stream.set_description(f"Epoch: {epoch:02}. Train. {metric_monitor}")
         if outputs is None and targets is None:
@@ -84,10 +83,10 @@ def validate_fn(val_loader, model, criterion, epoch, cfg):
             target = target.to(device).long()
 
             with autocast():
-                output = model(images)
+                output, feature = model(images)
                 output = output.float()
 
-            loss = criterion(output, target)
+            loss = criterion(feature, target)
 
             accuracy = accuracy_score(output, target)
 
@@ -115,7 +114,7 @@ def inference_fn(test_loader, model, cfg):
             images = images.to(device, non_blocking=True)
 
             with autocast():
-                output = model(images)
+                output, feature = model(images)
                 output = output.float()
 
             pred = torch.softmax(output, 1).detach().cpu()
@@ -145,7 +144,7 @@ def oof_fn(test_loader, model, cfg):
             images = images.to(device, non_blocking=True)
             label = label.to(device, non_blocking=True).long()
             with autocast():
-                output = model(images).float()
+                output, feature = model(images).float()
             probablity = torch.log_softmax(output, 1).detach().cpu()
             if probablitys is None:
                 probablitys = probablity

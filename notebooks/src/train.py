@@ -13,11 +13,11 @@ from torch.utils.data import DataLoader
 from dataset import *
 from model import *
 from train_func import *
+from loss import *
 
 
 def main(cfg):
     train_df = pd.read_csv(cfg['train_file_path'])
-    skf = StratifiedKFold(n_splits=5, random_state=42, shuffle=True)
 
     train_df['file_path'] = train_df['Image_id'].apply(lambda x: return_filpath(x, folder=cfg['train_dir']))
     test_df = pd.read_csv(cfg['pseudo_file_path'])
@@ -44,10 +44,10 @@ def main(cfg):
             train_labels = train['Label']
             valid_path = valid['file_path']
             valid_labels = valid['Label']
-            model = BaseModel(cfg)
+            model = BaseModelFeature(cfg)
 
             model.to(device)
-            criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
+            criterion = TripletLoss()
             optimizer_args = cfg['optimizer_args']
 
             optimizer = eval(cfg['optimizer'])(model.parameters(), **optimizer_args)

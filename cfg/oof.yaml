@@ -1,5 +1,5 @@
-model: swinv2_large_window12to24_192to384_22kft1k
-batch_size: 8
+model: swinv2_base_window12to24_192to384_22kft1k
+batch_size: 16
 image_size: 384
 seed: 42
 pretrained: false
@@ -13,10 +13,10 @@ in_channels: 3
 
 target_size: 3
 device: cuda
-model_dir: /home/mithil/PycharmProjects/Rice/models/log_loss/swinv2_large_window12to24_192to384_22kft1k
+model_dir: /home/mithil/PycharmProjects/Rice/models/log_loss/swinv2_base_window12to24_192to384_22kft1k_label_smooth
 n_fold: 5
-oof_file_path: /home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_tta.csv
-oof_probablity_path: /home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_tta.npy
+oof_file_path: /home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_label_smooth_tta.csv
+oof_probablity_path: /home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_label_smooth_tta.npy
 folds:
   - 0
   - 1
