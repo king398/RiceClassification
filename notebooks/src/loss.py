@@ -182,7 +182,7 @@ class AngularPenaltySMLoss(nn.Module):
         self.loss_type = loss_type
         self.in_features = in_features
         self.out_features = out_features
-        self.fc = nn.Linear(in_features, out_features, bias=False)
+        self.fc = nn.Linear(in_features, out_features, bias=False).cuda()
         self.eps = eps
 
     def forward(self, x, labels):
