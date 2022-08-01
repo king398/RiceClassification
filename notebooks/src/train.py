@@ -13,6 +13,7 @@ from torch.utils.data import DataLoader
 from dataset import *
 from model import *
 from train_func import *
+from loss import *
 
 
 def main(cfg):
@@ -47,7 +48,7 @@ def main(cfg):
             model = BaseModel(cfg)
 
             model.to(device)
-            criterion = nn.CrossEntropyLoss(weight=torch.tensor([1.1618799, 0.5957162, 2.17073171]).cuda())
+            criterion = FocalLoss()
             optimizer_args = cfg['optimizer_args']
 
             optimizer = eval(cfg['optimizer'])(model.parameters(), **optimizer_args)
