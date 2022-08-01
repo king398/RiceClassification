@@ -13,7 +13,6 @@ from torch.utils.data import DataLoader
 from dataset import *
 from model import *
 from train_func import *
-from loss import *
 
 
 def main(cfg):
@@ -48,7 +47,7 @@ def main(cfg):
             model = BaseModel(cfg)
 
             model.to(device)
-            criterion = FocalLoss()
+            criterion = nn.CrossEntropyLoss(label_smoothing=0.05)
             optimizer_args = cfg['optimizer_args']
 
             optimizer = eval(cfg['optimizer'])(model.parameters(), **optimizer_args)
