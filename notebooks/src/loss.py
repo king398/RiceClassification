@@ -59,13 +59,13 @@ class LabelSmoothingLoss(nn.Module):
 
 class TaylorCrossEntropyLoss(nn.Module):
 
-    def __init__(self, n=2, ignore_index=-1, reduction='mean', smoothing=0.2):
+    def __init__(self, n=2, ignore_index=-1, reduction='mean', smoothing=0.0):
         super(TaylorCrossEntropyLoss, self).__init__()
         assert n % 2 == 0
         self.taylor_softmax = TaylorSoftmax(dim=1, n=n)
         self.reduction = reduction
         self.ignore_index = ignore_index
-        self.lab_smooth = LabelSmoothingLoss(CFG.num_classes, smoothing=smoothing)
+        self.lab_smooth = LabelSmoothingLoss(3, smoothing=smoothing)
 
     def forward(self, logits, labels):
         log_probs = self.taylor_softmax(logits).log()
