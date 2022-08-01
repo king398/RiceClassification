@@ -34,7 +34,7 @@ class BaseModelFeature(nn.Module):
                                        in_chans=self.cfg['in_channels'],
                                        num_classes=0)
         self.model = self.model.apply(set_batchnorm_eval)
-        self.fc = nn.LazyLinear(self.cfg['target_size'])
+        self.fc = nn.Linear(self.model.head.in_features, self.cfg['target_size'])
 
     def forward(self, x):
         feature = self.model(x)
