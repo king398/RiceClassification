@@ -84,6 +84,7 @@ def validate_fn(val_loader, model, criterion, epoch, cfg):
 
             with autocast():
                 output, feature = model(images)
+                print(feature.shape)
                 output = output.float()
 
             loss = criterion(feature, target)

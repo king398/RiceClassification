@@ -26,7 +26,7 @@ max_lr: 1e-3
 weight_decay: 1e-6
 target_size: 3
 device: cuda
-model_dir: swin_v2_pseudo
+model_dir: swin_v2_triplet
 n_fold: 5
 mixup: True
 mixup_alpha: 1.0

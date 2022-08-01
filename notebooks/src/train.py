@@ -47,7 +47,7 @@ def main(cfg):
             model = BaseModelFeature(cfg)
 
             model.to(device)
-            criterion = TripletLoss()
+            criterion = AngularPenaltySMLoss(in_features=1024, out_features=3)
             optimizer_args = cfg['optimizer_args']
 
             optimizer = eval(cfg['optimizer'])(model.parameters(), **optimizer_args)
