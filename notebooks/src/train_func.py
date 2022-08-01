@@ -46,7 +46,7 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
         if cfg['mixup']:
             loss = mixup_criterion(criterion, output, target_a, target_b, lam)
         else:
-            loss = criterion(feature, target)
+            loss = criterion(output, target)
 
         accuracy = accuracy_score(output, target)
 
@@ -88,7 +88,7 @@ def validate_fn(val_loader, model, criterion, epoch, cfg):
                 output, feature = model(images)
                 output = output.float()
 
-            loss = criterion(feature, target)
+            loss = criterion(output, target)
 
             accuracy = accuracy_score(output, target)
 
