@@ -37,7 +37,7 @@ def main(cfg):
             best_loss = np.inf
 
             train = train_df[train_df['fold'] != fold].reset_index(drop=True)
-            train = oversample(train)
+            #train = oversample(train)
 
             valid = train_df[train_df['fold'] == fold].reset_index(drop=True)
 
