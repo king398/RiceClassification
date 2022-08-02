@@ -37,6 +37,7 @@ def main(cfg):
             best_loss = np.inf
 
             train = train_df[train_df['fold'] != fold].reset_index(drop=True)
+            train = oversample(train)
 
             valid = train_df[train_df['fold'] == fold].reset_index(drop=True)
 
@@ -47,7 +48,7 @@ def main(cfg):
             model = BaseModelFeature(cfg)
 
             model.to(device)
-            criterion = FocalLoss()
+            criterion = nn.CrossEntropyLoss()
             optimizer_args = cfg['optimizer_args']
 
             optimizer = eval(cfg['optimizer'])(model.parameters(), **optimizer_args)

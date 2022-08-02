@@ -5,7 +5,7 @@ import random
 from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts, OneCycleLR, CosineAnnealingLR
 from collections import defaultdict
 from sklearn.metrics import log_loss
-
+import pandas as pd
 
 def seed_everything(seed):
     os.environ['PYTHONHASHSEED'] = str(seed)
@@ -225,3 +225,18 @@ class AWP_fast:
         for name, param in self.model.named_parameters():
             if name in self.backup:
                 param.data.copy_(self.backup[name])
+
+
+def oversample(df):
+    classes = df.Label.value_counts().to_dict()
+    most = max(classes.values())
+    classes_list = []
+    for key in classes:
+        classes_list.append(df[df['Label'] == key])
+    classes_sample = []
+    for i in range(1, len(classes_list)):
+        classes_sample.append(classes_list[i].sample(most, replace=True))
+    df_maybe = pd.concat(classes_sample)
+    final_df = pd.concat([df_maybe, classes_list[0]], axis=0)
+    final_df = final_df.reset_index(drop=True)
+    return final_df
