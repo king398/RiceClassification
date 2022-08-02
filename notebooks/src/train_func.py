@@ -66,8 +66,6 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, schedu
         else:
             outputs = torch.cat([outputs, output], dim=0)
             targets = torch.cat([targets, target], dim=0)
-        del feature
-        torch.cuda.empty_cache()
     log_loss = final_loss(torch.log_softmax(outputs, 1), targets).item()
     wandb.log({f'Log Loss Train Fold {fold}': log_loss})
 
