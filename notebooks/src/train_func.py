@@ -6,9 +6,10 @@ import numpy as np
 import gc
 from augmentations import *
 from loss import *
+import wandb
 
 
-def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=None):
+def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, scheduler=None):
     """Train a model on the given image using the given parameters .
     Args:
         train_loader ([DataLoader]): A pytorch dataloader that contains train images and returns images,target
@@ -18,6 +19,7 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
         epoch ([type]): [description]
         cfg ([type]): [description]
         scheduler ([type], optional): [description]. Defaults to None.
+        fold ([type]): Fold Training
     """
     gc.collect()
     torch.cuda.empty_cache()
@@ -67,9 +69,10 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler=No
         del feature
         torch.cuda.empty_cache()
     log_loss = final_loss(torch.log_softmax(outputs, 1), targets).item()
+    wandb.log({f'Log Loss Train Fold {fold}': log_loss})
 
 
-def validate_fn(val_loader, model, criterion, epoch, cfg):
+def validate_fn(val_loader, model, criterion, epoch, cfg, fold):
     device = torch.device(cfg['device'])
     metric_monitor = MetricMonitor()
     final_loss = torch.nn.NLLLoss()
@@ -103,6 +106,7 @@ def validate_fn(val_loader, model, criterion, epoch, cfg):
                 targets = torch.cat([targets, target], dim=0)
     log_loss = final_loss(torch.log_softmax(outputs, 1), targets).item()
     print(F"Epoch: {epoch:02}. Valid. Log Loss {str(round(log_loss, 6))}")
+    wandb.log({f'Log Loss Valid Fold {fold}': log_loss})
     return log_loss
 
 

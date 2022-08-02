@@ -1,7 +1,6 @@
 import argparse
 from pathlib import Path
-from sklearn.utils.class_weight import compute_class_weight
-from sklearn.model_selection import StratifiedKFold
+import wandb
 
 import pandas as pd
 # Deep learning Stuff
@@ -9,6 +8,7 @@ import yaml
 from sklearn import preprocessing
 from torch.optim import *
 from torch.utils.data import DataLoader
+
 # Function Created by me
 from dataset import *
 from model import *
@@ -17,6 +17,8 @@ from loss import *
 
 
 def main(cfg):
+    wandb.init(project="RiceComp", entity="mithil")
+    wandb.config = cfg
     train_df = pd.read_csv(cfg['train_file_path'])
 
     train_df['file_path'] = train_df['Image_id'].apply(lambda x: return_filpath(x, folder=cfg['train_dir']))
@@ -37,7 +39,7 @@ def main(cfg):
             best_loss = np.inf
 
             train = train_df[train_df['fold'] != fold].reset_index(drop=True)
-            #train = oversample(train)
+            # train = oversample(train)
 
             valid = train_df[train_df['fold'] == fold].reset_index(drop=True)
 
@@ -74,8 +76,8 @@ def main(cfg):
 
             scheduler = get_scheduler(optimizer, cfg)
             for epoch in range(cfg['epochs']):
-                train_fn(train_loader, model, criterion, optimizer, epoch, cfg, scheduler)
-                log_loss = validate_fn(val_loader, model, criterion, epoch, cfg)
+                train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, scheduler)
+                log_loss = validate_fn(val_loader, model, criterion, epoch, cfg, fold)
                 if log_loss < best_loss:
                     best_loss = log_loss
                     if best_model_name is not None:
@@ -102,9 +104,11 @@ def main(cfg):
 if __name__ == '__main__' and '__file__' in globals():
     parser = argparse.ArgumentParser(description='Baseline')
     parser.add_argument("--file", type=Path)
+    parser.add_argument("--wandb_api_key")
     args = parser.parse_args()
     with open(str(args.file), "r") as stream:
         cfg = yaml.safe_load(stream)
+    os.environ["WANDB_API_KEY"] = args.wandb_api_key
 
     os.makedirs(cfg['model_dir'], exist_ok=True)
     main(cfg)
