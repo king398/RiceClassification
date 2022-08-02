@@ -47,7 +47,7 @@ def main(cfg):
             model = BaseModelFeature(cfg)
 
             model.to(device)
-            criterion = TaylorCrossEntropyLoss()
+            criterion = FocalLoss()
             optimizer_args = cfg['optimizer_args']
 
             optimizer = eval(cfg['optimizer'])(model.parameters(), **optimizer_args)
