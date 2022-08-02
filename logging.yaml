@@ -126,7 +126,7 @@ swinv2_base_window12to24_192to384_22kft1k:
     cv_tta: 0.08863433450460434
     lb_tta: 0.1029713086908735
   cfg:
-    model: convnext_small_384_in22ft1k
+    model: swinv2_base_window12to24_192to384_22kft1k
     batch_size: 8
     image_size: 384
     seed: 42

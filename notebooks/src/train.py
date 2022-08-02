@@ -17,8 +17,7 @@ from loss import *
 
 
 def main(cfg):
-    wandb.init(project="RiceComp", entity="mithil")
-    wandb.config = cfg
+    wandb.init(project="RiceComp", entity="mithil",config=cfg)
     train_df = pd.read_csv(cfg['train_file_path'])
 
     train_df['file_path'] = train_df['Image_id'].apply(lambda x: return_filpath(x, folder=cfg['train_dir']))
