@@ -9,7 +9,9 @@ def get_train_transforms(DIM):
     return A.Compose(
         [
             A.RandomResizedCrop(height=DIM, width=DIM),
-
+            A.HorizontalFlip(),
+            A.VerticalFlip(),
+            A.Cutout(),
             A.Normalize(),
 
             ToTensorV2(),
