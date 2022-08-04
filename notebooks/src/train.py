@@ -54,7 +54,7 @@ def main(cfg):
             optimizer_args = cfg['optimizer_args']
 
             optimizer = eval(cfg['optimizer'])(model.parameters(), **optimizer_args)
-            #awp = AWP_fast(model, optimizer)
+            awp = AWP_fast(model, optimizer)
             train_dataset = Cultivar_data(image_path=train_path,
                                           cfg=cfg,
                                           targets=train_labels,
@@ -77,7 +77,7 @@ def main(cfg):
 
             scheduler = get_scheduler(optimizer, cfg)
             for epoch in range(cfg['epochs']):
-                train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, scheduler)
+                train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, awp, scheduler)
                 log_loss = validate_fn(val_loader, model, criterion, epoch, cfg, fold)
                 if log_loss < best_loss:
                     best_loss = log_loss

@@ -20,10 +20,11 @@ probablity_2 = torch.tensor(
 probablity_3 = torch.tensor(
     np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_tta.npy',
             allow_pickle=True))
+
 best_loss = np.inf
 best_weight = 0
 loss_list = []
-for x in range(1000):
+for x in range(100000):
 
     i = np.random.random(3)
     i /= i.sum()

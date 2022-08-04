@@ -32,13 +32,10 @@ class BaseModelFeature(nn.Module):
         self.cfg = cfg
         self.model = timm.create_model(self.cfg['model'], pretrained=self.cfg['pretrained'],
                                        in_chans=self.cfg['in_channels'],
-                                       num_classes=0)
+                                       num_classes=cfg['target_size'])
         self.model = self.model.apply(set_batchnorm_eval)
-        self.fc = nn.Linear(1024        , self.cfg['target_size'])
 
     def forward(self, x):
+        output = self.model(x)
 
-        feature = self.model(x)
-
-        output = self.fc(feature)
         return output
