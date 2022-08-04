@@ -39,6 +39,7 @@ class BaseModelFeature(nn.Module):
     def forward(self, x):
 
         feature = self.model(x)
+        print(feature)
 
         output = self.fc(feature)
         return output
