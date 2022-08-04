@@ -5,9 +5,9 @@ from torch import nn
 from sklearn import preprocessing
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('/home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_tta.csv')
+df = pd.read_csv('/home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_cutout_tta.csv')
 probablity_2 = torch.log(torch.tensor(
-    np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_tta.npy',
+    np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_cutout_tta.npy',
             allow_pickle=True)))
 blast_index = list(df.index[df['label'] == 'blast'])
 brown_index = list(df.index[df['label'] == 'brown'])
@@ -18,13 +18,13 @@ df['label'] = label_encoder.fit_transform(df['label'])
 loss = nn.NLLLoss()
 blast_probality = probablity_2[blast_index]
 blast_labels = torch.tensor(df['label'][blast_index].values)
-blast_loss = loss(blast_probality, blast_labels).item() * (len(blast_labels) / len(probablity_2))
+blast_loss = loss(blast_probality, blast_labels).item()
 print(f"blast Label Loss : {blast_loss}")
 brown_probality = probablity_2[brown_index]
 brown_labels = torch.tensor(df['label'][brown_index].values)
-brown_loss = (loss(brown_probality, brown_labels).item()) * (len(brown_labels) / len(probablity_2))
+brown_loss = (loss(brown_probality, brown_labels).item())
 print(f"brown Label Loss : {brown_loss}")
 healthy_probality = probablity_2[healthy_index]
 healthy_labels = torch.tensor(df['label'][healthy_index].values)
-healthy_loss = loss(healthy_probality, healthy_labels).item() * (len(healthy_labels) / len(probablity_2))
+healthy_loss = loss(healthy_probality, healthy_labels).item()
 print(f"healthy Label Loss : {healthy_loss}")

@@ -12,10 +12,10 @@ train_df['Label'] = label_encoder.fit_transform(train_df['Label'])
 labels = train_df['Label']
 labels = torch.tensor(labels)
 probablity_1 = torch.tensor(
-    np.load('/home/mithil/PycharmProjects/Rice/oof/swin_large_patch4_window12_384_tta.npy',
+    np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_label_smooth_tta.npy',
             allow_pickle=True))
 probablity_2 = torch.tensor(
-    np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_label_smooth_tta.npy',
+    np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_cutout_tta.npy',
             allow_pickle=True))
 probablity_3 = torch.tensor(
     np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_tta.npy',
@@ -25,9 +25,9 @@ best_weight = 0
 loss_list = []
 for x in range(1000):
 
-    i = np.random.random(3)
+    i = np.random.random(4)
     i /= i.sum()
-    probablity = torch.log(probablity_1 * i[0] + probablity_2 * i[1] + probablity_3 * i[2])
+    probablity = torch.log(probablity_1 * i[0] + probablity_2 * i[1] + probablity_3 * i[2] + probablity_4 * i[3])
 
     loss = nn.NLLLoss()
     loss_item = (loss(probablity, labels).item())

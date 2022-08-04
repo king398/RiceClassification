@@ -171,5 +171,7 @@ swinv2_base_window12to24_192to384_22kft1k_pseudo:
 
 
 
-
+swinv2_base_window12to24_192to384_22kft1k_cutout:
+  score :
+    cv_tta : 
 

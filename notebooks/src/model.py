@@ -41,5 +41,4 @@ class BaseModelFeature(nn.Module):
         feature = self.model(x)
 
         output = self.fc(feature)
-        print(output.shape)
         return output

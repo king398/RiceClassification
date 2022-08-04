@@ -151,7 +151,6 @@ def oof_fn(test_loader, model, cfg):
             images = images.to(device, non_blocking=True)
             label = label.to(device, non_blocking=True).long()
             with autocast():
-                print(images.shape)
                 output = model(images)
                 output = output.float()
             probablity = torch.log_softmax(output, 1).detach().cpu()
