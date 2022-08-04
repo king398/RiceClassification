@@ -13,7 +13,9 @@ def get_train_transforms(DIM=512):
             A.RandomResizedCrop(height=DIM, width=DIM),
             A.HorizontalFlip(),
             A.VerticalFlip(),
-            A.Cutout(always_apply=True,num_holes=64,),
+            A.Cutout(always_apply=True, num_holes=32, ),
+            A.ShiftScaleRotate(),
+
             A.Normalize(),
 
         ]
@@ -22,7 +24,7 @@ def get_train_transforms(DIM=512):
 
 transform = get_train_transforms()
 
-image = cv2.imread('/home/mithil/PycharmProjects/Rice/data/images/id_0elx409mfe.jpg')
+image = cv2.imread('/home/mithil/PycharmProjects/Rice/data/images/id_0l8i75umhc.jpg')
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 image = transform(image=image)['image']

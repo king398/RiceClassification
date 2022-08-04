@@ -123,8 +123,9 @@ convnext_small_384_in22ft1k_512_cutmix:
     tta: tta.aliases.flip_transform()
 swinv2_base_window12to24_192to384_22kft1k:
   score:
-    cv_tta: 0.08863433450460434
+    cv_tta: 0.08863433450460434,1.438795566558838
     lb_tta: 0.1029713086908735
+
   cfg:
     model: swinv2_base_window12to24_192to384_22kft1k
     batch_size: 8
@@ -158,12 +159,17 @@ swinv2_base_window12to24_192to384_22kft1k:
     tta: tta.aliases.flip_transform()
 swin_large_patch4_window12_384:
   score:
-    cv_tta: 0.08526156097650528
+    cv_tta: 0.08526156097650528,1.3951977491378784
     lb_tta:
 swinv2_large_window12to24_192to384_22kft1k:
   score:
     cv_tta: 0.07907352596521378
     lb_tta: 0.08653677970925176
+swinv2_base_window12to24_192to384_22kft1k_pseudo:
+  score:
+    cv_tta: 1.3736261129379272
+
+
 
 
 

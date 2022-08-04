@@ -18,13 +18,13 @@ df['label'] = label_encoder.fit_transform(df['label'])
 loss = nn.NLLLoss()
 blast_probality = probablity_2[blast_index]
 blast_labels = torch.tensor(df['label'][blast_index].values)
-blast_loss = loss(blast_probality, blast_labels).item()
+blast_loss = loss(blast_probality, blast_labels).item() * (len(blast_labels) / len(probablity_2))
 print(f"blast Label Loss : {blast_loss}")
 brown_probality = probablity_2[brown_index]
 brown_labels = torch.tensor(df['label'][brown_index].values)
-brown_loss = loss(brown_probality, brown_labels).item()
+brown_loss = (loss(brown_probality, brown_labels).item()) * (len(brown_labels) / len(probablity_2))
 print(f"brown Label Loss : {brown_loss}")
 healthy_probality = probablity_2[healthy_index]
 healthy_labels = torch.tensor(df['label'][healthy_index].values)
-healthy_loss = loss(healthy_probality, healthy_labels).item()
+healthy_loss = loss(healthy_probality, healthy_labels).item() * (len(healthy_labels) / len(probablity_2))
 print(f"healthy Label Loss : {healthy_loss}")
