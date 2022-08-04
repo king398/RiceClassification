@@ -1,4 +1,4 @@
-model: swin_large_patch4_window12_384
+model: swinv2_base_window12to24_192to384_22kft1k
 batch_size: 16
 image_size: 384
 seed: 42
@@ -13,7 +13,7 @@ in_channels: 3
 
 target_size: 3
 device: cuda
-model_path: /home/mithil/PycharmProjects/Rice/models/log_loss/swin_large_patch4_window12_384
+model_path: /home/mithil/PycharmProjects/Rice/models/log_loss/swinv2_base_window12to24_192to384_22kft1k_cutout
 n_fold: 5
 folds:
   - 0

@@ -25,9 +25,9 @@ best_weight = 0
 loss_list = []
 for x in range(1000):
 
-    i = np.random.random(4)
+    i = np.random.random(3)
     i /= i.sum()
-    probablity = torch.log(probablity_1 * i[0] + probablity_2 * i[1] + probablity_3 * i[2] + probablity_4 * i[3])
+    probablity = torch.log(probablity_1 * i[0] + probablity_2 * i[1] + probablity_3 * i[2])
 
     loss = nn.NLLLoss()
     loss_item = (loss(probablity, labels).item())
