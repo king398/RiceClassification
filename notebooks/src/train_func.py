@@ -45,7 +45,7 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, awp=No
             target_b = target_b.to(device)
 
         with autocast():
-            output, feature = model(images)
+            output = model(images)
             output = output.float()
         if cfg['mixup']:
             loss = mixup_criterion(criterion, output, target_a, target_b, lam)

@@ -34,12 +34,11 @@ class BaseModelFeature(nn.Module):
                                        in_chans=self.cfg['in_channels'],
                                        num_classes=0)
         self.model = self.model.apply(set_batchnorm_eval)
-        self.fc = nn.Linear(1024, self.cfg['target_size'])
+        self.fc = nn.Linear(1536, self.cfg['target_size'])
 
     def forward(self, x):
 
         feature = self.model(x)
-        print(feature)
 
         output = self.fc(feature)
         return output
