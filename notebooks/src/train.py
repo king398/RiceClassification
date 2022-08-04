@@ -38,7 +38,7 @@ def main(cfg):
             best_loss = np.inf
 
             train = train_df[train_df['fold'] != fold].reset_index(drop=True)
-            #train = oversample(train)
+            # train = oversample(train)
 
             valid = train_df[train_df['fold'] == fold].reset_index(drop=True)
 
@@ -77,7 +77,7 @@ def main(cfg):
 
             scheduler = get_scheduler(optimizer, cfg)
             for epoch in range(cfg['epochs']):
-                train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, scheduler)
+                train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, awp, scheduler)
                 log_loss = validate_fn(val_loader, model, criterion, epoch, cfg, fold)
                 if log_loss < best_loss:
                     best_loss = log_loss
