@@ -7,6 +7,7 @@ from collections import defaultdict
 from sklearn.metrics import log_loss
 import pandas as pd
 
+
 def seed_everything(seed):
     os.environ['PYTHONHASHSEED'] = str(seed)
     np.random.seed(seed)
@@ -170,7 +171,7 @@ class AWP(object):
         self.grad_backup = {}
 
 
-class AWP_fast:
+class AWP_fast(object):
     def __init__(self, model, optimizer, *, adv_param='weight',
                  adv_lr=0.001, adv_eps=0.001):
         self.model = model

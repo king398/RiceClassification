@@ -37,6 +37,9 @@ class BaseModelFeature(nn.Module):
         self.fc = nn.Linear(1024, self.cfg['target_size'])
 
     def forward(self, x):
+
         feature = self.model(x)
+
         output = self.fc(feature)
-        return output, feature
+        print(output.shape)
+        return output

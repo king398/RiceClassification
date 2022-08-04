@@ -9,17 +9,18 @@ from loss import *
 import wandb
 
 
-def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, scheduler=None):
+def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, awp, scheduler=None):
     """Train a model on the given image using the given parameters .
     Args:
         train_loader ([DataLoader]): A pytorch dataloader that contains train images and returns images,target
         model ([Module]): A pytorch model
-        criterion ([type]): Pytorch loss
-        optimizer ([type]): [description]
-        epoch ([type]): [description]
-        cfg ([type]): [description]
-        scheduler ([type], optional): [description]. Defaults to None.
-        fold ([type]): Fold Training
+        criterion ([Module]): Pytorch loss
+        optimizer ([Optimizer]): [description]
+        epoch ([int]): [description]
+        cfg ([dict]): [description]
+        scheduler ([Scheduler], optional): [description]. Defaults to None.
+        fold ([int]): Fold Training
+        awp ([Object]) : Adversarial Weight Perturbation
     """
     gc.collect()
     torch.cuda.empty_cache()
@@ -37,6 +38,7 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, schedu
 
         images = images.to(device, non_blocking=True)
         target = target.to(device).long()
+        awp.perturb()
         if cfg['mixup']:
             images, target_a, target_b, lam = cutmix(images, target, cfg['mixup_alpha'])
             target_a = target_a.to(device)
@@ -55,6 +57,7 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, schedu
         metric_monitor.update("Loss", loss.item())
         metric_monitor.update("Accuracy", accuracy)
         loss.backward()
+        awp.restore()
         optimizer.step()
         if scheduler is not None:
             scheduler.step()
@@ -86,7 +89,7 @@ def validate_fn(val_loader, model, criterion, epoch, cfg, fold):
             target = target.to(device).long()
 
             with autocast():
-                output, feature = model(images)
+                output = model(images)
                 output = output.float()
 
             loss = criterion(output, target)
@@ -118,7 +121,7 @@ def inference_fn(test_loader, model, cfg):
             images = images.to(device, non_blocking=True)
 
             with autocast():
-                output, feature = model(images)
+                output = model(images)
                 output = output.float()
 
             pred = torch.softmax(output, 1).detach().cpu()
@@ -148,7 +151,9 @@ def oof_fn(test_loader, model, cfg):
             images = images.to(device, non_blocking=True)
             label = label.to(device, non_blocking=True).long()
             with autocast():
-                output, feature = model(images).float()
+                print(images.shape)
+                output = model(images)
+                output = output.float()
             probablity = torch.log_softmax(output, 1).detach().cpu()
             if probablitys is None:
                 probablitys = probablity

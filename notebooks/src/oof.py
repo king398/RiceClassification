@@ -42,7 +42,7 @@ def main(cfg):
                 valid_dataset, batch_size=cfg['batch_size'], shuffle=False,
                 num_workers=cfg['num_workers'], pin_memory=cfg['pin_memory']
             )
-            model = BaseModel(cfg)
+            model = BaseModelFeature(cfg)
             path = glob.glob(f"{cfg['model_dir']}/{cfg['model']}_fold{fold}*.pth")
             model.load_state_dict(torch.load(path[0]))
             model = tta.ClassificationTTAWrapper(model, tta.aliases.flip_transform())

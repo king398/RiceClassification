@@ -17,7 +17,7 @@ from loss import *
 
 
 def main(cfg):
-    wandb.init(project="RiceComp", entity="mithil",config=cfg)
+    wandb.init(project="RiceComp", entity="mithil", config=cfg)
     train_df = pd.read_csv(cfg['train_file_path'])
 
     train_df['file_path'] = train_df['Image_id'].apply(lambda x: return_filpath(x, folder=cfg['train_dir']))
@@ -50,9 +50,11 @@ def main(cfg):
 
             model.to(device)
             criterion = nn.CrossEntropyLoss()
+
             optimizer_args = cfg['optimizer_args']
 
             optimizer = eval(cfg['optimizer'])(model.parameters(), **optimizer_args)
+            awp = AWP_fast(model, optimizer)
             train_dataset = Cultivar_data(image_path=train_path,
                                           cfg=cfg,
                                           targets=train_labels,
