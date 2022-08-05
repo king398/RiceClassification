@@ -31,14 +31,15 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, awp=No
     stream = tqdm(train_loader)
     outputs = None
     targets = None
-    cfg['mixup'] = False
+    if epoch > 5:
+        cfg['mixup'] = True
 
     for i, (images, target) in enumerate(stream, start=1):
         optimizer.zero_grad()
 
         images = images.to(device, non_blocking=True)
         target = target.to(device).long()
-        awp.perturb()
+        # awp.perturb()
         if cfg['mixup']:
             images, target_a, target_b, lam = cutmix(images, target, cfg['mixup_alpha'])
             target_a = target_a.to(device)
@@ -57,7 +58,7 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, awp=No
         metric_monitor.update("Loss", loss.item())
         metric_monitor.update("Accuracy", accuracy)
         loss.backward()
-        awp.restore()
+        # awp.restore()
         optimizer.step()
         if scheduler is not None:
             scheduler.step()
