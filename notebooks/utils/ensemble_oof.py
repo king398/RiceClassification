@@ -12,7 +12,7 @@ train_df['Label'] = label_encoder.fit_transform(train_df['Label'])
 labels = train_df['Label']
 labels = torch.tensor(labels)
 probablity_1 = torch.tensor(
-    np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_label_smooth_tta.npy',
+    np.load('/home/mithil/PycharmProjects/Rice/oof/swin_large_patch4_window12_384_tta.npy',
             allow_pickle=True))
 probablity_2 = torch.tensor(
     np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_cutout_tta.npy',
