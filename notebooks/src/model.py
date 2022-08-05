@@ -18,6 +18,7 @@ class BaseModel(nn.Module):
                                        in_chans=self.cfg['in_channels'],
                                        num_classes=cfg['target_size'])
         self.model = self.model.apply(set_batchnorm_eval)
+        #self.model.set_grad_checkpointing(True)
 
     def forward(self, x):
         output = self.model(x)
