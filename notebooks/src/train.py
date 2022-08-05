@@ -54,7 +54,6 @@ def main(cfg):
             optimizer_args = cfg['optimizer_args']
 
             optimizer = eval(cfg['optimizer'])(model.parameters(), **optimizer_args)
-            awp = AWP_fast(model, optimizer)
             train_dataset = Cultivar_data(image_path=train_path,
                                           cfg=cfg,
                                           targets=train_labels,
@@ -77,8 +76,10 @@ def main(cfg):
 
             scheduler = get_scheduler(optimizer, cfg)
             for epoch in range(cfg['epochs']):
-                train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, awp, scheduler)
+                train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, scheduler)
+
                 log_loss = validate_fn(val_loader, model, criterion, epoch, cfg, fold)
+                torch.cuda.empty_cache()
                 if log_loss < best_loss:
                     best_loss = log_loss
                     if best_model_name is not None:
@@ -89,7 +90,6 @@ def main(cfg):
                                       f"{str(round(log_loss, 4))}.pth"
 
                 gc.collect()
-                torch.cuda.empty_cache()
 
             gc.collect()
             torch.cuda.empty_cache()
@@ -100,6 +100,7 @@ def main(cfg):
             del model
             del optimizer
             del scheduler
+            torch.cuda.empty_cache()
 
 
 if __name__ == '__main__' and '__file__' in globals():
