@@ -49,7 +49,7 @@ def main(cfg):
             model = BaseModelFeature(cfg)
 
             model.to(device)
-            criterion = nn.CrossEntropyLoss()
+            criterion = TaylorCrossEntropyLoss()
 
             optimizer_args = cfg['optimizer_args']
 
