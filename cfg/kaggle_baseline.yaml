@@ -7,7 +7,7 @@ num_workers: 2
 pin_memory: true
 train_dir: ../input/rice-zindi-comp/
 train_file_path: ../input/train-zindi/train.csv
-epochs: 15
+epochs: 25
 in_channels: 3
 folds:
   - 0
@@ -26,7 +26,7 @@ max_lr: 1e-3
 weight_decay: 1e-6
 target_size: 3
 device: cuda
-model_dir: swin_v2_triplet
+model_dir: swin_v2_cutout_mixup
 n_fold: 5
 mixup: True
 mixup_alpha: 1.0

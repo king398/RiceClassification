@@ -12,6 +12,7 @@ def get_train_transforms(DIM):
             A.HorizontalFlip(),
             A.VerticalFlip(),
             A.Cutout(),
+
             A.Normalize(),
 
             ToTensorV2(),
