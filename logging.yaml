@@ -181,6 +181,8 @@ swinv2_base_window12to24_192to384_22kft1k_cutout:
 swinv2_base_window12to24_192to384_22kft1k_mixup_only:
   score:
     cv_tta: 0.07751593738794327
+
+    lb_tta : 0.08624396217065304
 swinv2_base_window12to24_192to384_22kft1k_mixup_cutout:
   score:
     cv_tta : 0.08040450513362885
