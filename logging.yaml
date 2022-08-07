@@ -77,7 +77,7 @@ convnext_small_512_image_size_no_aug:
     optimizer_args:
       lr: 1.0E-5
     Augs:
-    "A.RandomResizedCrop(height=DIM, width=DIM),
+      "A.RandomResizedCrop(height=DIM, width=DIM),
            A.HorizontalFlip(),
            A.VerticalFlip()"
     tta: tta.aliases.flip_transform()
@@ -117,7 +117,7 @@ convnext_small_384_in22ft1k_512_cutmix:
     optimizer_args:
       lr: 1.0E-5
     Augs:
-    "A.RandomResizedCrop(height=DIM, width=DIM),
+      "A.RandomResizedCrop(height=DIM, width=DIM),
              A.HorizontalFlip(),
              A.VerticalFlip()"
     tta: tta.aliases.flip_transform()
@@ -153,14 +153,14 @@ swinv2_base_window12to24_192to384_22kft1k:
     optimizer_args:
       lr: 1.0E-5
     Augs:
-    "A.RandomResizedCrop(height=DIM, width=DIM),
+      "A.RandomResizedCrop(height=DIM, width=DIM),
                A.HorizontalFlip(),
                A.VerticalFlip()"
     tta: tta.aliases.flip_transform()
 swin_large_patch4_window12_384:
   score:
     cv_tta: 0.08526156097650528,1.3951977491378784
-    lb_tta:
+    lb_tta: 0.09057395039155558
 swinv2_large_window12to24_192to384_22kft1k:
   score:
     cv_tta: 0.07907352596521378
@@ -172,7 +172,15 @@ swinv2_base_window12to24_192to384_22kft1k_pseudo:
 
 
 swinv2_base_window12to24_192to384_22kft1k_cutout:
-  score :
-    cv_tta : 0.07907353341579437
+  score:
+    cv_tta: 0.07907353341579437
+    lb_tta: 0.09639893062006431
 
 
+
+swinv2_base_window12to24_192to384_22kft1k_mixup_only:
+  score:
+    cv_tta: 0.0781
+swinv2_base_window12to24_192to384_22kft1k_mixup_cutout:
+  score:
+    cv_tta : 0.0775

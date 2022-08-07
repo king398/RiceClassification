@@ -11,6 +11,7 @@ def get_train_transforms(DIM):
             A.RandomResizedCrop(height=DIM, width=DIM),
             A.HorizontalFlip(),
             A.VerticalFlip(),
+            A.Cutout(),
 
             A.Normalize(),
 
