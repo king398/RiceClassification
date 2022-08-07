@@ -5,17 +5,17 @@ from torch import nn
 from sklearn import preprocessing
 import matplotlib.pyplot as plt
 import numpy as np
-
+from tqdm import tqdm
 train_df = pd.read_csv('/home/mithil/PycharmProjects/Rice/data/train.csv')
 label_encoder = preprocessing.LabelEncoder()
 train_df['Label'] = label_encoder.fit_transform(train_df['Label'])
 labels = train_df['Label']
 labels = torch.tensor(labels)
 probablity_1 = torch.tensor(
-    np.load('/home/mithil/PycharmProjects/Rice/oof/swin_v2_base_384_mixup_only_tta.npy',
+    np.load('/home/mithil/PycharmProjects/Rice/oof/swin_large_patch4_window12_384_tta.npy',
             allow_pickle=True))
 probablity_2 = torch.tensor(
-    np.load('/home/mithil/PycharmProjects/Rice/oof/swin_large_patch4_window12_384_tta.npy',
+    np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_mixup_25_epoch_tta.npy',
             allow_pickle=True))
 probablity_3 = torch.tensor(
     np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_tta.npy',
@@ -24,7 +24,7 @@ probablity_3 = torch.tensor(
 best_loss = np.inf
 best_weight = 0
 loss_list = []
-for x in range(100000):
+for x in tqdm(range(100000)):
 
     i = np.random.random(3)
     i /= i.sum()

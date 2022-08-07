@@ -9,13 +9,13 @@ probablity_1 = np.load(
     '/home/mithil/PycharmProjects/Rice/submission/swin_v2_base_384_mixup_only_tta.npy',
     allow_pickle=True)
 probablity_2 = np.load(
-    '/home/mithil/PycharmProjects/Rice/submission/swin_large_patch4_window12_384_tta.npy',
+    '/home/mithil/PycharmProjects/Rice/submission/swinv2_large_window12to24_192to384_22kft1k_mixup_25_epoch_tta.npy',
     allow_pickle=True)
 probablity_3 = np.load(
     '/home/mithil/PycharmProjects/Rice/submission/swinv2_large_window12to24_192to384_22kft1k_tta.npy',
     allow_pickle=True)
 
-probablity = probablity_1 * 0.34840964 + probablity_2 * 0.21325329 + probablity_3 * 0.43833706
+probablity = probablity_1 * 0.23106641 + probablity_2 * 0.3707068 + probablity_3 * 0.3982268
 blast = []
 brown = []
 healthy = []

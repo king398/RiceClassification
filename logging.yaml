@@ -183,6 +183,13 @@ swinv2_base_window12to24_192to384_22kft1k_mixup_only:
     cv_tta: 0.07751593738794327
 
     lb_tta : 0.08624396217065304
+  epochs : 25
 swinv2_base_window12to24_192to384_22kft1k_mixup_cutout:
   score:
     cv_tta : 0.08040450513362885
+  epochs : 25
+swinv2_large_window12to24_192to384_22kft1k_mixup_25_epoch:
+  score :
+    cv_tta :  0.07485413551330566
+
+    lb_tta : 
