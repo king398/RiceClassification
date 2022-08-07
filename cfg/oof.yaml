@@ -13,10 +13,10 @@ in_channels: 3
 
 target_size: 3
 device: cuda
-model_dir: /home/mithil/PycharmProjects/Rice/models/log_loss/swin_v2_base_384_cutout_mixup
+model_dir:  /home/mithil/PycharmProjects/Rice/models/log_loss/swin_v2_base_384_mixup_only
 n_fold: 5
-oof_file_path: /home/mithil/PycharmProjects/Rice/oof/swin_v2_base_384_cutout_mixup_tta.csv
-oof_probablity_path: /home/mithil/PycharmProjects/Rice/oof/swin_v2_base_384_cutout_mixup_tta.npy
+oof_file_path: /home/mithil/PycharmProjects/Rice/oof/swin_v2_base_384_mixup_only_tta.csv
+oof_probablity_path: /home/mithil/PycharmProjects/Rice/oof/swin_v2_base_384_mixup_only_tta.npy
 folds:
   - 0
   - 1
