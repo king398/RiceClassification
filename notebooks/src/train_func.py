@@ -31,8 +31,7 @@ def train_fn(train_loader, model, criterion, optimizer, epoch, cfg, fold, awp=No
     stream = tqdm(train_loader)
     outputs = None
     targets = None
-    if epoch > 5:
-        cfg['mixup'] = True
+    cfg['mixup'] = False
 
     for i, (images, target) in enumerate(stream, start=1):
         optimizer.zero_grad()
