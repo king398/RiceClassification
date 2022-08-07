@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 df = pd.read_csv('/home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_cutout_tta.csv')
 probablity_2 = torch.log(torch.tensor(
-    np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_cutout_tta.npy',
+    np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_tta.npy',
             allow_pickle=True)))
 blast_index = list(df.index[df['label'] == 'blast'])
 brown_index = list(df.index[df['label'] == 'brown'])
@@ -28,3 +28,9 @@ healthy_probality = probablity_2[healthy_index]
 healthy_labels = torch.tensor(df['label'][healthy_index].values)
 healthy_loss = loss(healthy_probality, healthy_labels).item()
 print(f"healthy Label Loss : {healthy_loss}")
+data = {"healthy Label Loss": healthy_loss, "brown Label Loss": brown_loss, "blast Label Loss": blast_loss}
+names = list(data.keys())
+values = list(data.values())
+
+plt.bar(range(len(data)), values, tick_label=names)
+plt.show()
