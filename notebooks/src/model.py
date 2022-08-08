@@ -98,7 +98,7 @@ class myModel(nn.Module):
         else:
             h = self.model(x)
 
-        if self.multi_drop:
+        if True:
             for i, dropout in enumerate(self.head_drops):
                 if i == 0:
                     output = self.head(dropout(h))
