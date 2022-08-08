@@ -52,11 +52,13 @@ class myModel(nn.Module):
                  ):
         super().__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
         self.att_layer = att_layer
 
         self.model = timm.create_model(
             cfg['model'], pretrained=pretrained
         )
+        self.model.set_grad_checkpointing(True)
         self.model = self.model.apply(set_batchnorm_eval)
         n_features = self.model.head.in_features
         self.model.head = nn.Identity()
