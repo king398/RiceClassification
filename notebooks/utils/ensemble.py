@@ -1,5 +1,8 @@
 import pandas as pd
 import numpy as np
+import torch
+import torch.nn.functional as F
+
 
 id = \
     pd.read_csv(
@@ -18,7 +21,10 @@ probablity = probablity_1 * 0.40140872 + probablity_2 * 0.34685097 + probablity_
 blast = []
 brown = []
 healthy = []
-probabilitys = probablity
+probabilitys = torch.tensor(probablity)
+probabilitys =  torch.argmax(probabilitys,1)
+probabilitys =   F.one_hot(probabilitys, 3).float()
+probabilitys = probabilitys.numpy()
 for i in probabilitys:
     blast.append(i[0])
     brown.append(i[1])

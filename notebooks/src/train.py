@@ -46,7 +46,7 @@ def main(cfg):
             train_labels = train['Label']
             valid_path = valid['file_path']
             valid_labels = valid['Label']
-            model = BaseModelFeature(cfg)
+            model = myModel(cfg)
 
             model.to(device)
             criterion = nn.CrossEntropyLoss()
