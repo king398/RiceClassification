@@ -1,8 +1,8 @@
+import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import torch
 import torch.nn.functional as F
-
 
 id = \
     pd.read_csv(
@@ -21,14 +21,19 @@ probablity = probablity_1 * 0.40140872 + probablity_2 * 0.34685097 + probablity_
 blast = []
 brown = []
 healthy = []
-probabilitys = torch.tensor(probablity)
-probabilitys =  torch.argmax(probabilitys,1)
-probabilitys =   F.one_hot(probabilitys, 3).float()
-probabilitys = probabilitys.numpy()
+probabilitys = probablity
 for i in probabilitys:
     blast.append(i[0])
     brown.append(i[1])
     healthy.append(i[2])
+lists = {0: 'blast', 1: 'brown', 2: 'healthy'}
+probabilitys = torch.tensor(probablity)
+
+probabilitys = list(np.array(torch.argmax(probabilitys, 1)))
+other = pd.DataFrame({'labels': probabilitys})
+other['labels'].replace(lists,inplace=True)
+other['labels'].hist()
+plt.show()
 sub = pd.DataFrame({"filename": id, "blast": blast, "brown": brown, "healthy": healthy})
 sub.to_csv(
     '/home/mithil/PycharmProjects/Rice/submission/ensemble/swin_v2_base_swin_v2_large_mixup_swinv2_large_window_12.csv',

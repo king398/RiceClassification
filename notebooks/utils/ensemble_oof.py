@@ -35,7 +35,7 @@ for x in tqdm(range(10000)):
     i = np.random.random(4)
     i /= i.sum()
     probablity = torch.log(probablity_1 * i[0] + probablity_2 * i[1] + probablity_3 * i[2] + probablity_4 * i[3])
-   # probablity = torch.clip(probablity, 0.025, 0.975)
+    print(probablity)
     loss = nn.NLLLoss()
     loss_item = (loss(probablity, labels).item())
     if loss_item < best_loss:
