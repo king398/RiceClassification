@@ -1,5 +1,5 @@
-model: swin_large_patch4_window12_384
-batch_size: 8
+model: swinv2_large_window12to24_192to384_22kft1k
+batch_size: 4
 image_size: 384
 seed: 42
 pretrained: true
@@ -26,7 +26,7 @@ max_lr: 1e-3
 weight_decay: 1e-6
 target_size: 3
 device: cuda
-model_dir: swin_large_25_epoch
+model_dir: swinv2_large_window12to24_192to384_22kft1k_25_epoch
 n_fold: 5
 mixup: True
 mixup_alpha: 1.0

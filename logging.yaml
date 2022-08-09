@@ -204,3 +204,7 @@ swinv2_base_window12to24_192to384_22kft1k_25_epoch_delayed_mixup:
   score:
     cv_tta : 0.07529262453317642
     lb_tta : 0.08195057830951497
+swin_large_25_epoch:
+  score:
+    cv_tta: 0.07529262453317642
+    lb_tta : 0.0666001914919875
