@@ -35,14 +35,12 @@ for x in tqdm(range(10000)):
     i = np.random.random(4)
     i /= i.sum()
     probablity = torch.log(probablity_1 * i[0] + probablity_2 * i[1] + probablity_3 * i[2] + probablity_4 * i[3])
-    print(probablity)
     loss = nn.NLLLoss()
     loss_item = (loss(probablity, labels).item())
     if loss_item < best_loss:
         best_weight = i
         best_loss = loss_item
     loss_list.append(loss_item)
-    break
 print(best_loss)
 print(best_weight)
 loss_list.sort(reverse=True)

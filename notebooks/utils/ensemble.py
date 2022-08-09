@@ -17,7 +17,11 @@ probablity_2 = np.load(
 probablity_3 = np.load(
     '/home/mithil/PycharmProjects/Rice/submission/swinv2_large_window12to24_192to384_22kft1k_tta.npy',
     allow_pickle=True)
-probablity = probablity_1 * 0.40140872 + probablity_2 * 0.34685097 + probablity_3 * 0.25174032
+probablity_4 = np.load(
+    '/home/mithil/PycharmProjects/Rice/submission/swinv2_base_window12to24_192to384_22kft1k_25_epoch_delayed_mixup_tta.npy',
+    allow_pickle=True)
+
+probablity = probablity_1 * 0.3764718 + probablity_2 * 0.29312114 + probablity_3 * 0.24823102 + probablity_4 * 0.08217604
 blast = []
 brown = []
 healthy = []
@@ -31,10 +35,11 @@ probabilitys = torch.tensor(probablity)
 
 probabilitys = list(np.array(torch.argmax(probabilitys, 1)))
 other = pd.DataFrame({'labels': probabilitys})
-other['labels'].replace(lists,inplace=True)
+other['labels'].replace(lists, inplace=True)
 other['labels'].hist()
+print(other['labels'].value_counts())
 plt.show()
 sub = pd.DataFrame({"filename": id, "blast": blast, "brown": brown, "healthy": healthy})
 sub.to_csv(
-    '/home/mithil/PycharmProjects/Rice/submission/ensemble/swin_v2_base_swin_v2_large_mixup_swinv2_large_window_12.csv',
+    '/home/mithil/PycharmProjects/Rice/submission/ensemble/swin_v2_base_swin_v2_large_mixup_swinv2_large_window_12_swin_v2_delayed.csv',
     index=False)
