@@ -1,6 +1,6 @@
-model: swinv2_large_window12to24_192to384_22kft1k
-batch_size: 8
-image_size: 384
+model: convnext_large_384_in22ft1k
+batch_size: 4
+image_size: 512
 seed: 42
 pretrained: false
 num_workers: 10
@@ -13,10 +13,10 @@ in_channels: 3
 
 target_size: 3
 device: cuda
-model_dir: /home/mithil/PycharmProjects/Rice/models/log_loss/swinv2_large_window12to24_192to384_22kft1k_25_epoch
+model_dir: /home/mithil/PycharmProjects/Rice/models/log_loss/convnext_large_384_in22ft1k_25_epoch
 n_fold: 5
-oof_file_path: /home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_25_epoch_tta.csv
-oof_probablity_path: /home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_25_epoch_tta.npy
+oof_file_path: /home/mithil/PycharmProjects/Rice/oof/convnext_large_384_in22ft1k_25_epoch_tta.csv
+oof_probablity_path: /home/mithil/PycharmProjects/Rice/oof/convnext_large_384_in22ft1k_25_epoch_tta.npy
 folds:
   - 0
   - 1

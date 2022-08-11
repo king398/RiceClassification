@@ -1,6 +1,6 @@
-model: convnext_large_384_in22ft1k
+model: swinv2_large_window12to24_192to384_22kft1k
 batch_size: 4
-image_size: 512
+image_size: 384
 seed: 42
 pretrained: true
 num_workers: 2
@@ -26,11 +26,11 @@ max_lr: 1e-3
 weight_decay: 1e-6
 target_size: 3
 device: cuda
-model_dir: convnext_large_384_in22ft1k_25_epoch
+model_dir: swinv2_large_window12to24_192to384_22kft1k_pseudo_25_epoch
 n_fold: 5
 mixup: True
 mixup_alpha: 1.0
-pseudo_file_path: /content/RiceClassification/submission/swinv2_base_window12to24_192to384_22kft1k_tta.csv
+pseudo_file_path: /content/RiceClassification/submission/swinv2_large_window12to24_192to384_22kft1k_25_epoch_tta.csv
 optimizer_args:
   lr: 1.0E-5
 
