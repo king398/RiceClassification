@@ -45,7 +45,7 @@ def main(cfg):
             model = BaseModelFeature(cfg)
             path = glob.glob(f"{cfg['model_dir']}/{cfg['model']}_fold{fold}*.pth")
             model.load_state_dict(torch.load(path[0]))
-            model = tta.ClassificationTTAWrapper(model, tta.aliases.five_crop_transform(384, 384))
+            model = tta.ClassificationTTAWrapper(model, tta.aliases.flip_transform())
             model = model.to(device)
             ids, target, preds, probablity, accuracy = oof_fn(val_loader, model, cfg)
             print(f"Fold: {fold} Accuracy: {accuracy}")

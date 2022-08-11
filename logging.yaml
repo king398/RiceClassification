@@ -208,3 +208,7 @@ swin_large_25_epoch:
   score:
     cv_tta: 0.07529262453317642
     lb_tta : 0.0666001914919875
+swinv2_large_window12to24_192to384_22kft1k_25_epoch:
+  score:
+    cv_tta : Loss 0.06936729699373245
+    lb_tta :

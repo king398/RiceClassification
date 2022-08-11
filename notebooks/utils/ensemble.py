@@ -20,8 +20,10 @@ probablity_3 = np.load(
 probablity_4 = np.load(
     '/home/mithil/PycharmProjects/Rice/submission/swinv2_base_window12to24_192to384_22kft1k_25_epoch_delayed_mixup_tta.npy',
     allow_pickle=True)
-
-probablity = probablity_1 * 0.3764718 + probablity_2 * 0.29312114 + probablity_3 * 0.24823102 + probablity_4 * 0.08217604
+probablity_5 = np.load(
+    '/home/mithil/PycharmProjects/Rice/submission/swin_large_25_epoch_tta.npy',
+    allow_pickle=True)
+probablity =  probablity_4 * 0.3 + probablity_5 * 0.7
 blast = []
 brown = []
 healthy = []
@@ -41,5 +43,5 @@ print(other['labels'].value_counts())
 plt.show()
 sub = pd.DataFrame({"filename": id, "blast": blast, "brown": brown, "healthy": healthy})
 sub.to_csv(
-    '/home/mithil/PycharmProjects/Rice/submission/ensemble/swin_v2_base_swin_v2_large_mixup_swinv2_large_window_12_swin_v2_delayed.csv',
+    '/home/mithil/PycharmProjects/Rice/submission/ensemble/best_lb_model_ensemble.csv',
     index=False)

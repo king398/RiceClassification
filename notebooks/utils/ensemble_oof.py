@@ -20,7 +20,7 @@ probablity_2 = torch.tensor(
     np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_mixup_25_epoch_tta.npy',
             allow_pickle=True))
 probablity_3 = torch.tensor(
-    np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_tta.npy',
+    np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_25_epoch_tta.npy',
             allow_pickle=True))
 probablity_4 = torch.tensor(
     np.load(
