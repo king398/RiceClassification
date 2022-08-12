@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
 import wandb
+from sklearn.model_selection import StratifiedKFold
 
 import pandas as pd
 # Deep learning Stuff
@@ -30,7 +31,15 @@ def main(cfg):
     device = return_device()
     label_encoder = preprocessing.LabelEncoder()
     train_df['Label'] = label_encoder.fit_transform(train_df['Label'])
-
+    skf = StratifiedKFold(n_splits=5, random_state=42, shuffle=True)
+    df = pd.DataFrame()
+    for fold, (trn_index, val_index) in enumerate(skf.split(test_df, test_df['Label'])):
+        valid = test_df.iloc[val_index]
+        valid = valid.reset_index(drop=True)
+        valid['fold'] = fold
+        df = pd.concat([df, valid]).reset_index(drop=True)
+    df.head()
+    train_df = pd.concat([train_df, df]).reset_index(drop=True)
     for fold in range(5):
 
         if fold in cfg['folds']:
@@ -38,7 +47,6 @@ def main(cfg):
             best_loss = np.inf
 
             train = train_df[train_df['fold'] != fold].reset_index(drop=True)
-            train = pd.concat([train, test_df]).reset_index(drop=True)
             # train = oversample(train)
 
             valid = train_df[train_df['fold'] == fold].reset_index(drop=True)

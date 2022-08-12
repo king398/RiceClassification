@@ -215,3 +215,6 @@ swinv2_large_window12to24_192to384_22kft1k_25_epoch:
 convnext_large_25_epoch:
   score:
     cv_tta : Loss 0.08609747141599655
+swinv2_large_window12to24_192to384_22kft1k_pseudo_25_epoch:
+  score:
+    cv_tta : 0.051815081387758255
