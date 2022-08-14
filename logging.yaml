@@ -199,22 +199,22 @@ swinv2_large_window12to24_192to384_22kft1k_mixup_25_epoch:
 swin_v2_base_25_epoch_no_mixup:
   score:
     cv_tta: 0.07181371003389359
-    lb_tta : 0.0852622391383722
+    lb_tta: 0.0852622391383722
 swinv2_base_window12to24_192to384_22kft1k_25_epoch_delayed_mixup:
   score:
-    cv_tta : 0.07529262453317642
-    lb_tta : 0.08195057830951497
+    cv_tta: 0.07529262453317642
+    lb_tta: 0.08195057830951497
 swin_large_25_epoch:
   score:
     cv_tta: 0.07529262453317642
-    lb_tta : 0.0666001914919875
+    lb_tta: 0.0666001914919875
 swinv2_large_window12to24_192to384_22kft1k_25_epoch:
   score:
-    cv_tta : Loss 0.06936729699373245
-    lb_tta :
+    cv_tta: Loss 0.06936729699373245
+    lb_tta:
 convnext_large_25_epoch:
   score:
-    cv_tta : Loss 0.08609747141599655
+    cv_tta: Loss 0.08609747141599655
 swinv2_large_window12to24_192to384_22kft1k_pseudo_25_epoch:
   score:
-    cv_tta : 0.051815081387758255
+    cv_tta: Loss 0.04777972772717476

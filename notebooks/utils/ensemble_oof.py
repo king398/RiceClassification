@@ -5,8 +5,9 @@ from torch import nn
 from sklearn import preprocessing
 import matplotlib.pyplot as plt
 import numpy as np
-from tqdm import tqdm
+from tqdm.auto import tqdm
 import torch.nn.functional as F
+from joblib import Parallel, delayed
 
 train_df = pd.read_csv('/home/mithil/PycharmProjects/Rice/data/train.csv')
 label_encoder = preprocessing.LabelEncoder()
@@ -32,19 +33,23 @@ probablity_5 = torch.tensor(
         '/home/mithil/PycharmProjects/Rice/oof/swin_large_25_epoch_tta.npy',
         allow_pickle=True))
 probablity_6 = torch.tensor(
-    np.load('/home/mithil/PycharmProjects/Rice/oof/convnext_large_384_in22ft1k_25_epoch_tta.npy', allow_pickle=True))
+    np.load(
+        '/home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_pseudo_25_epoch_diff_type_tta.npy',
+        allow_pickle=True))
 best_loss = np.inf
 best_weight = 0
 loss_list = []
-for x in tqdm(range(100000)):
+weights_list = []
+loss = nn.NLLLoss()
 
-    i = np.random.random(5)
+for x in tqdm(range(1000000)):
+
+    i = np.random.random(6).astype(np.float16)
     i /= i.sum()
 
     probablity = torch.log(
         probablity_1 * i[0] + probablity_2 * i[1] + probablity_3 * i[2] + probablity_4 * i[3] + probablity_5 * i[
-            4])
-    loss = nn.NLLLoss()
+            4] + probablity_6 * i[5])
     loss_item = (loss(probablity, labels).item())
     if loss_item < best_loss:
         best_weight = i
@@ -52,6 +57,3 @@ for x in tqdm(range(100000)):
     loss_list.append(loss_item)
 print(best_loss)
 print(best_weight)
-loss_list.sort(reverse=True)
-plt.plot(loss_list)
-plt.show()
