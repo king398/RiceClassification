@@ -25,7 +25,7 @@ probablity_3 = torch.tensor(
             allow_pickle=True))
 probablity_4 = torch.tensor(
     np.load(
-        '/home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_25_epoch_delayed_mixup_tta.npy',
+        '/home/mithil/PycharmProjects/Rice/oof/swin_large_patch4_window12_384_pseudo_25_epoch_tta.npy',
         allow_pickle=True))
 
 probablity_5 = torch.tensor(

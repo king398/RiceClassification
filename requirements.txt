@@ -9,3 +9,5 @@ opencv-python~=4.6.0.66
 ttach~=0.0.3
 tqdm~=4.63.1
 albumentations~=1.1.0
+wandb~=0.12.21
+joblib~=1.1.0

@@ -18,12 +18,15 @@ probablity_3 = np.load(
     '/home/mithil/PycharmProjects/Rice/submission/swinv2_large_window12to24_192to384_22kft1k_25_epoch_tta.npy',
     allow_pickle=True)
 probablity_4 = np.load(
-    '/home/mithil/PycharmProjects/Rice/submission/swinv2_base_window12to24_192to384_22kft1k_25_epoch_delayed_mixup_tta.npy',
+    '/home/mithil/PycharmProjects/Rice/submission/swin_large_patch4_window12_384_pseudo_25_epoch_tta.npy',
     allow_pickle=True)
 probablity_5 = np.load(
     '/home/mithil/PycharmProjects/Rice/submission/swin_large_25_epoch_tta.npy',
     allow_pickle=True)
-probablity = probablity_1 * 0.19808844 + probablity_2 * 0.20803277 + probablity_3 * 0.1611146 + probablity_4 * 0.25473104 + probablity_5 * 0.22578544
+probablity_6 = np.load(
+    '/home/mithil/PycharmProjects/Rice/submission/swinv2_large_window12to24_192to384_22kft1k_pseudo_25_epoch_diff_type_tta.npy',
+    allow_pickle=True)
+probablity = probablity_1 * 0.05087 + probablity_2 * 0.0933 + probablity_3 * 0.1564 + probablity_4 * 0.1354 + probablity_5 * 0.0211 + probablity_6 * 0.5435
 blast = []
 brown = []
 healthy = []
@@ -43,5 +46,5 @@ print(other['labels'].value_counts())
 plt.show()
 sub = pd.DataFrame({"filename": id, "blast": blast, "brown": brown, "healthy": healthy})
 sub.to_csv(
-    '/home/mithil/PycharmProjects/Rice/submission/ensemble/Weird_weight_ensemble.csv',
+    '/home/mithil/PycharmProjects/Rice/submission/ensemble/two_psuedo_model_plus_normal_model_ensemble_cv_0.036757342517375946.csv',
     index=False)

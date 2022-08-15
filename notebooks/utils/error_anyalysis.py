@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 df = pd.read_csv('/home/mithil/PycharmProjects/Rice/oof/swinv2_base_window12to24_192to384_22kft1k_cutout_tta.csv')
 probablity_2 = torch.log(torch.tensor(
-    np.load('/home/mithil/PycharmProjects/Rice/oof/swin_v2_base_25_epoch_no_mixup_tta.npy',
+    np.load('/home/mithil/PycharmProjects/Rice/oof/swinv2_large_window12to24_192to384_22kft1k_pseudo_25_epoch_diff_type_tta.npy',
             allow_pickle=True)))
 blast_index = list(df.index[df['label'] == 'blast'])
 brown_index = list(df.index[df['label'] == 'brown'])
